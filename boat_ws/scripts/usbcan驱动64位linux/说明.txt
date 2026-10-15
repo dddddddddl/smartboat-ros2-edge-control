@@ -1,0 +1,6 @@
+该例子程序已经将USB驱动编译至库文件，所以不需要编译加载设备驱动，直接编译源文件即可使用。
+该例子程序需要udev库支持，个别操作系统没有安装此库，在编译的时候会提示找不到ludev库。这时候我们需要安装该库，然后再编译，安装方法如下。
+Ubuntu系列操作系统：apt-get install libudev-dev
+红帽子系列操作系统：yum install udev-devel
+
+libusb-1.0 的开发库，在centos中是 libusbx-devel

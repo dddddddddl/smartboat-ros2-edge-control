@@ -1,0 +1,27 @@
+yaw_from_mavlink:
+  ros__parameters:
+    mavlink_url: tcp:127.0.0.1:5760
+    target_system_id: 0
+    output_yaw_topic: /smartboat/localization/yaw
+    output_ground_speed_topic: /smartboat/localization/ground_speed
+    output_ground_speed_valid_topic: /smartboat/localization/ground_speed_valid
+    output_rate_hz: 30.0
+    publish_last_on_disconnect: true
+    heartbeat_timeout_sec: 5.0
+    recv_timeout_sec: 1.0
+    attitude_timeout_sec: 3.0
+    ground_speed_timeout_sec: 0.8
+    # Without a valid GPS fix PX4 can expose numerically populated but invalid
+    # velocity estimates. Do not publish them as safety ground speed.
+    require_gps_fix_for_ground_speed: true
+    minimum_gps_fix_type: 3
+    gps_fix_timeout_sec: 0.8
+    maximum_ground_speed_mps: 5.0
+    # Reject one-frame GPS/EKF speed jumps before they can shrink the dynamic
+    # stopping distance or falsely confirm that the vessel has stopped.
+    maximum_ground_speed_change_mps_per_sec: 0.8
+    ground_speed_jump_tolerance_mps: 0.25
+    request_message_intervals: true
+    requested_message_rate_hz: 10.0
+    reconnect_delay_sec: 2.0
+    log_period_sec: 1.0

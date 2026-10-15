@@ -1,0 +1,23 @@
+{
+  "archive": "smartboat-runtime-assets.tar.gz",
+  "bytes": 315950592,
+  "sha256": "72e25bfbc07b9caa696996f544dd1e87aeb37cd7b59b4f2f2d2c8b9ba6a38dd0",
+  "upstream_asset_id": 460800966,
+  "files": [
+    {
+      "path": "boat_ws/models/ewasr_resnet18.onnx",
+      "bytes": 241076632,
+      "sha256": "15e520fc5f7e910c9367556db9a9c1107bdc9c74e7982b3bf89c7050509411d7"
+    },
+    {
+      "path": "boat_ws/wheels/onnxruntime_gpu-1.20.0-cp310-cp310-linux_aarch64.whl",
+      "bytes": 145022838,
+      "sha256": "0c418beb3326027d83acc283372ae42ebe9df12f71c3a8c2e9743a4e323443a4"
+    },
+    {
+      "path": "boat_ws/wheels/pyrealsense2-2.58.2-cp310-cp310-linux_aarch64.whl",
+      "bytes": 5675266,
+      "sha256": "6774d237a61ac8ce5b8e3a7861b4e968b22da63a795bd0b20d52f5d729824211"
+    }
+  ]
+}

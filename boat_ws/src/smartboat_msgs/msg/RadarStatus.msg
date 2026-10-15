@@ -1,0 +1,10 @@
+std_msgs/Header header
+bool connected
+bool data_fresh
+string interface
+float32 raw_min_distance_m
+float32 raw_max_distance_m
+uint32 target_count
+uint64 received_frames
+uint64 received_status_frames
+uint64 received_object_frames

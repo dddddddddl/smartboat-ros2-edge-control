@@ -1,0 +1,89 @@
+FROM nvcr.io/nvidia/l4t-jetpack:r36.4.0
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV ROS_DISTRO=humble
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+ENV CUDA_HOME=/usr/local/cuda
+ENV PATH=/usr/local/cuda/bin:${PATH}
+ENV LD_LIBRARY_PATH=/usr/lib/aarch64-linux-gnu/nvidia:/usr/local/cuda/targets/aarch64-linux/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib:${LD_LIBRARY_PATH}
+
+# 1. 基础工具。这里只装 Ubuntu 默认源里一定能找到的包
+RUN apt-get update && apt-get install -y \
+    locales \
+    curl \
+    wget \
+    gnupg2 \
+    lsb-release \
+    software-properties-common \
+    ca-certificates \
+    build-essential \
+    cmake \
+    git \
+    ffmpeg \
+    netcat-openbsd \
+    python3-pip \
+    python3-aiohttp \
+    python3-requests \
+    python3-dev \
+    python3-venv \
+    libgl1 \
+    libglib2.0-0 \
+    python3-opencv \
+    && locale-gen en_US en_US.UTF-8 \
+    && add-apt-repository universe \
+    && rm -rf /var/lib/apt/lists/*
+
+# 2. 添加 ROS2 Humble apt 源
+RUN apt-get update && \
+    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
+    -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+    echo "deb [arch=arm64 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main" \
+    > /etc/apt/sources.list.d/ros2.list
+
+# 3. 添加 ROS2 源之后，再装 ROS2 / colcon / rosdep / vcstool
+RUN apt-get update && apt-get install -y \
+    ros-humble-ros-base \
+    ros-humble-rmw-fastrtps-cpp \
+    ros-humble-cv-bridge \
+    ros-humble-image-transport \
+    ros-humble-vision-msgs \
+    python3-colcon-common-extensions \
+    python3-rosdep \
+    python3-vcstool \
+    && rm -rf /var/lib/apt/lists/*
+
+# 4. Python 基础依赖。先不要在这里装 onnxruntime-gpu，后面单独装 Jetson aarch64 wheel
+RUN python3 -m pip install --upgrade pip 'setuptools<80' wheel && \
+    python3 -m pip install \
+    'numpy<2' \
+    onnx
+
+COPY boat_ws/wheels/onnxruntime_gpu-1.20.0-cp310-cp310-linux_aarch64.whl /tmp/onnxruntime_gpu-1.20.0-cp310-cp310-linux_aarch64.whl
+
+RUN python3 -m pip install --no-cache-dir \
+    'numpy<2' \
+    /tmp/onnxruntime_gpu-1.20.0-cp310-cp310-linux_aarch64.whl && \
+    rm -f /tmp/onnxruntime_gpu-1.20.0-cp310-cp310-linux_aarch64.whl
+
+# 5. 自动 source ROS2
+RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc && \
+    echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc
+
+# SR73F SocketCAN and PX4 MAVLink tools, kept late to preserve the base cache.
+RUN apt-get update && apt-get install -y \
+    iproute2 \
+    can-utils \
+    python3-serial \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN python3 -m pip install --no-cache-dir 'pymavlink==2.4.49'
+
+RUN apt-get update && apt-get install -y \
+    fonts-noto-cjk \
+    python3-pil \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace/boat_ws
+
+CMD ["bash"]

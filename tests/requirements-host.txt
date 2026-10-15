@@ -1,0 +1,8 @@
+# Isolated offline-review environment tested on macOS/Python 3.12.
+# This file does not replace or migrate the Jetson/Python 3.10 runtime.
+pytest==9.1.1
+numpy==1.26.4
+opencv-python==4.11.0.86
+Pillow==12.3.0
+pyserial==3.5
+PyYAML==6.0.3

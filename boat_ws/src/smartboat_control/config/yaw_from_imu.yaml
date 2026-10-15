@@ -1,0 +1,4 @@
+yaw_from_imu:
+  ros__parameters:
+    input_imu_topic: /mavros/imu/data
+    output_yaw_topic: /smartboat/localization/yaw

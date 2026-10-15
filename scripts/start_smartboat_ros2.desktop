@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=启动智能船 ROS2
+Comment=启动并进入 smartboat_ros2_g39 容器
+Exec=gnome-terminal -- bash -lc '/home/ubuntu2204/smartboat/scripts/start_smartboat_ros2.sh; exec bash'
+Icon=utilities-terminal
+Terminal=false
+Categories=Development;

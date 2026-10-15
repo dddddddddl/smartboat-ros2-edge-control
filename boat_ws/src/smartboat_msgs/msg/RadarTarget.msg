@@ -1,0 +1,12 @@
+uint16 id
+float32 longitudinal_m
+float32 lateral_m
+float32 distance_m
+float32 distance_from_bow_m
+float32 bearing_deg
+float32 relative_longitudinal_mps
+float32 relative_lateral_mps
+float32 rcs_db
+float32 closing_speed_mps
+float32 ttc_sec
+bool ttc_valid

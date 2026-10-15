@@ -1,0 +1,42 @@
+avoidance_pid:
+  ros__parameters:
+    # control loop
+    control_rate_hz: 10.0
+
+    # distance thresholds
+    safe_distance: 2.0
+    stop_distance: 0.8
+
+    # speed control
+    normal_speed: 0.5
+    slow_speed: 0.2
+    ground_speed_topic: /smartboat/localization/ground_speed
+    enable_ground_speed_limit: true
+    max_avoidance_ground_speed: 1.0
+    ground_speed_timeout_sec: 1.0
+    ground_speed_kp: 0.8
+    ground_speed_ki: 0.0
+    ground_speed_kd: 0.1
+    ground_speed_integral_limit: 0.5
+
+    # avoidance target
+    avoidance_yaw_deg: 30.0
+
+    # PID gains
+    kp: 1.2
+    ki: 0.0
+    kd: 0.25
+
+    # PID limits
+    integral_limit: 0.5
+    max_yaw_rate: 0.7
+
+    # smoothing
+    speed_smoothing_alpha: 0.12
+    yaw_smoothing_alpha: 0.18
+
+    # timeout protection
+    obstacle_timeout_sec: 0.8
+    yaw_timeout_sec: 3.0
+    yaw_input_unit: degrees
+    clear_delay_sec: 2.0

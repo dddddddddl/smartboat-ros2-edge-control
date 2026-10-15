@@ -1,0 +1,41 @@
+avoidance_executor:
+  ros__parameters:
+    supervisor_status_topic: /smartboat/navigation/avoidance_supervisor_status
+    recommendation_topic: /smartboat/navigation/avoidance_cmd_vel
+    ground_speed_topic: /smartboat/localization/ground_speed
+    ground_speed_valid_topic: /smartboat/localization/ground_speed_valid
+    flight_mode_topic: /smartboat/px4_bridge/flight_mode
+    armed_topic: /smartboat/px4_bridge/armed
+    output_cmd_vel_topic: /smartboat/control/cmd_vel
+    output_active_topic: /smartboat/control/avoidance_active
+    output_status_topic: /smartboat/control/avoidance_executor_status
+    output_manual_fallback_topic: /smartboat/control/manual_fallback_requested
+    manual_handoff_complete_topic: /smartboat/px4_bridge/manual_handoff_complete
+
+    # Mission stays in AUTO.MISSION. MAVLink manual input temporarily takes
+    # precedence only while the executor publishes active=true.
+    mission_slow_speed_mps: 0.20
+    mission_detour_speed_mps: 0.25
+    mission_detour_yaw_rate_rad_s: 0.35
+
+    # Manual collision sequence: neutral deceleration -> continuously stopped
+    # confirmation -> hold. SENSOR_FAULT is stop-only.
+    manual_slow_speed_mps: 0.15
+    # Horizontal speed below this value is treated as stopped.
+    manual_stop_speed_mps: 0.20
+    manual_slow_max_sec: 1.50
+    manual_brake_hold_sec: 0.50
+    manual_brake_max_sec: 2.50
+    manual_reverse_speed_mps: 0.25
+    manual_reverse_duration_sec: 1.00
+    # Rear clearance is not sensed by the maintained stack. Keep automatic
+    # reverse disabled until a rear safety sensor/interlock is installed.
+    manual_reverse_enabled: false
+    # A Manual takeover is bounded. Timeout releases RC and remains locked out
+    # until the executor observes disarmed, followed by a new arm cycle.
+    manual_takeover_max_sec: 5.00
+    clear_hold_sec: 1.00
+
+    input_timeout_sec: 0.80
+    px4_state_timeout_sec: 2.00
+    control_rate_hz: 20.0

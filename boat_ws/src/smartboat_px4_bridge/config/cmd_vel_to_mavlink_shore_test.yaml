@@ -1,0 +1,70 @@
+cmd_vel_to_mavlink_shore_test:
+  ros__parameters:
+    mavlink_url: tcp:127.0.0.1:5760
+    input_cmd_vel_topic: /smartboat/control/shore_test_cmd_vel
+    status_topic: /smartboat/px4_bridge/shore_test_status
+
+    # Deliberately remains false in the file. The shore-test launch requires
+    # the operator to pass enable_output:=true after completing safety checks.
+    output_enabled: false
+    output_lock_path: /tmp/smartboat_px4_bridge_output.lock
+    target_system_id: 1
+    allowed_control_modes:
+      - MANUAL
+      - OFFBOARD
+    require_armed: true
+    # The source manager enforces COM_RC_IN_MODE=2 before enabling any test
+    # output, while the test remains independent of the activation heartbeat.
+    require_activation: false
+    source_switching_enabled: true
+    mavlink_control_input_mode: 2
+    restore_control_input_mode: 2
+    manual_avoidance_enabled: true
+    hold_before_offboard: false
+    offboard_warmup_sec: 1.10
+    offboard_release_sec: 0.50
+    offboard_mode_retry_sec: 1.00
+    offboard_entry_timeout_sec: 4.00
+    offboard_heading_lookahead_sec: 1.00
+    offboard_max_heading_offset_rad: 0.35
+
+    mode_timeout_sec: 2.0
+    command_rate_hz: 10.0
+    heartbeat_timeout_sec: 5.0
+    reconnect_delay_sec: 2.0
+    cmd_timeout_sec: 0.3
+
+    # Full-scale ROS input is limited directly in Offboard velocity units for
+    # the first unloaded shore test. Legacy scale parameters are retained for
+    # config compatibility but are not used by production output.
+    max_linear_speed: 0.1
+    max_yaw_rate: 0.1
+    throttle_center: 500
+    max_throttle_opening_percent: 10.0
+    throttle_scale: 50
+    steering_scale: 150
+
+    # Kept for compatibility with older shore-test configurations.
+    steering_mavlink_axis: "y"
+    # ROS angular.z is counter-clockwise positive; body-NED right is positive.
+    yaw_to_mavlink_sign: -1.0
+    neutral_on_timeout: true
+    # Shore testing intentionally remains open-loop and low-output; it does not
+    # depend on a live GPS topic.
+    speed_closed_loop_enabled: false
+    rc_throttle_channel: 3
+    rc_steering_channel: 1
+    rc_throttle_neutral_pwm: 1514
+    rc_steering_neutral_pwm: 1514
+    rc_neutral_tolerance_pwm: 100
+    rc_takeover_threshold_pwm: 80
+    rc_entry_neutral_sec: 0.3
+    allow_unknown_rc_rssi: true
+    stop_speed_threshold_mps: 0.2
+    stop_command_deadband_mps: 0.02
+    physical_kill_channel: 7
+    physical_kill_trigger_pwm: 1850
+    physical_kill_release_pwm: 1700
+    event_log_enabled: true
+    event_log_path: /workspace/boat_ws/log/smartboat_px4_bridge_shore_events.jsonl
+    log_period_sec: 0.5

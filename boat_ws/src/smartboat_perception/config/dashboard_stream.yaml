@@ -1,0 +1,18 @@
+dashboard_stream:
+  ros__parameters:
+    stream_url: ""
+    stream_server: "111.229.242.175"
+    stream_port: 10000
+    stream_path: ""
+    stream_suffix: ""
+    identity_dir: "/host_boot"
+    station_default: "test"
+    boat_default: "test01"
+    stream_fps: 15
+    stream_width: 1280
+    stream_height: 960
+    stream_bitrate: "1800k"
+    stream_codec: "libx264"
+    stream_loglevel: "warning"
+    ffmpeg_path: "ffmpeg"
+    input_timeout_sec: 1.0

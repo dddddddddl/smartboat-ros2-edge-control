@@ -1,0 +1,45 @@
+services:
+  boat_ros2:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        USERNAME: ubuntu2204
+        USER_UID: 1000
+        USER_GID: 1000
+
+    image: smartboat-ros2:humble-l4t-r36
+    container_name: smartboat_ros2_g39
+
+    runtime: nvidia
+    network_mode: host
+    ipc: host
+    privileged: true
+    group_add:
+      - "0"
+      - "104"
+      - "995"
+      - dialout
+      - video
+
+    environment:
+      - ROS_DOMAIN_ID=39
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - DISPLAY=${DISPLAY}
+
+    volumes:
+      - ./boat_ws:/workspace/boat_ws
+      - /usr/bin/mavlink-routerd:/usr/bin/mavlink-routerd:ro
+      - /etc/mavlink-router:/etc/mavlink-router:ro
+      - /boot:/boot:ro
+      - /boot:/host_boot:ro
+      - /dev:/dev
+      - /tmp/argus_socket:/tmp/argus_socket
+      - /tmp/.X11-unix:/tmp/.X11-unix
+
+    working_dir: /workspace/boat_ws
+
+    stdin_open: true
+    tty: true

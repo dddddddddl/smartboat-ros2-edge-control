@@ -1,0 +1,75 @@
+# Smartboat project ignores
+# Keep the repository focused on source, launch/config, tests, and container recipes.
+
+# Local assistant / IDE metadata
+.agents/
+.codex/
+.vscode/
+.idea/
+*.swp
+
+# Local/manual diagnostic materials are not production launch dependencies.
+boat_ws/scripts/Exo.py
+boat_ws/scripts/exo_linux_readme.md
+boat_ws/scripts/YSI_EXO_User_Manual.pdf
+boat_ws/scripts/radar_pointcloud.png
+
+# Accidental shell argument files from local experiments
+--add-host=host.docker.internal:host-gateway
+-e
+smartboat_ros2_g39
+git_package_
+
+# ROS 2 / colcon generated outputs
+boat_ws/build/
+boat_ws/install/
+boat_ws/log/
+
+# Python generated outputs
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Runtime caches
+boat_ws/trt_engine_cache/
+*.engine
+*.timing
+
+# Large runtime assets kept outside normal Git history.
+# See docs/runtime-assets.md for GitHub source and runtime assets.
+boat_ws/models/*.onnx
+boat_ws/src/*.onnx
+boat_ws/wheels/*.whl
+
+# Large third-party source tree used only to build pyrealsense2 locally.
+boat_ws/src/librealsense/
+
+# Generated / binary USB-CAN artifacts
+boat_ws/scripts/__pycache__/
+boat_ws/scripts/target/
+boat_ws/scripts/target.zip
+boat_ws/scripts/usbcan驱动64位linux/**/CMakeCache.txt
+boat_ws/scripts/usbcan驱动64位linux/**/CMakeFiles/
+boat_ws/scripts/usbcan驱动64位linux/**/Makefile
+boat_ws/scripts/usbcan驱动64位linux/**/cmake_install.cmake
+boat_ws/scripts/usbcan驱动64位linux/**/tags
+boat_ws/scripts/usbcan驱动64位linux/**/*.o
+boat_ws/scripts/usbcan驱动64位linux/**/*.a
+boat_ws/scripts/usbcan驱动64位linux/**/*.so
+
+# Archives generated for transfer
+*.bundle
+*.tar
+*.tar.gz
+*.zip
+
+# Retired local demos / backups after keeping the self-contained visualization demo
+*.bak
+boat_ws/src/smartboat_bringup/realsense_obstacle_inference.py
+boat_ws/src/smartboat_bringup/realsense_obstacle_freshest_inference.py
+boat_ws/scripts/usbcan驱动64位linux/iTekon-usb-210420/iTekon-test-aarch64

@@ -1,0 +1,18 @@
+sr73f_radar:
+  ros__parameters:
+    can_interface: ""
+    can_bitrate: 500000
+    auto_bringup_interface: true
+    minimum_distance_m: 3.0
+    maximum_distance_m: 10.0
+    field_of_view_deg: 112.0
+    minimum_rcs: -64.0
+    radar_to_bow_m: 0.45
+    object_timeout_sec: 0.5
+    # Reject one-frame multipath/noise. A target ID must be observed in three
+    # actual 0x60B frames inside this window before it reaches supervision.
+    minimum_confirmation_frames: 3
+    confirmation_window_sec: 0.5
+    scan_timeout_sec: 0.5
+    reconnect_delay_sec: 2.0
+    publish_rate_hz: 10.0

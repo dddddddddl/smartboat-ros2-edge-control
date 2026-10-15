@@ -1,0 +1,22 @@
+ewasr_fusion:
+  ros__parameters:
+    model_path: ""
+    use_fp16: true
+    model_width: 512
+    model_height: 384
+    camera_width: 640
+    camera_height: 480
+    camera_fps: 30
+    frame_timeout_ms: 1000
+    reconnect_delay_sec: 2.0
+    obstacle_class: 0
+    minimum_valid_depth_m: 0.15
+    maximum_valid_depth_m: 3.0
+    avoidance_distance_m: 2.8
+    minimum_obstacle_pixels: 200
+    maximum_depth_samples: 3000
+    # Use a near percentile so a small close obstacle is not hidden by a large
+    # farther region. Refuse steering when the selected half-frame is crowded.
+    near_distance_percentile: 5.0
+    maximum_turn_obstacle_fraction: 0.25
+    visualization_stride: 2

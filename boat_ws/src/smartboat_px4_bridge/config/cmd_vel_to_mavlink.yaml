@@ -1,0 +1,141 @@
+cmd_vel_to_mavlink:
+  ros__parameters:
+    mavlink_url: tcp:127.0.0.1:5760
+    input_cmd_vel_topic: /smartboat/control/cmd_vel
+    activation_topic: /smartboat/control/avoidance_active
+    status_topic: /smartboat/px4_bridge/status
+    flight_mode_topic: /smartboat/px4_bridge/flight_mode
+    armed_topic: /smartboat/px4_bridge/armed
+
+    # Production avoidance is enabled by the one-key launch. Output still
+    # requires a valid PX4 heartbeat, supported mode, armed state, activation
+    # heartbeat, fresh command, and confirmed RC-capable input configuration.
+    output_enabled: true
+    # Shared by production and shore-test nodes; a second hardware-output
+    # bridge fails startup instead of competing for PX4 mode/setpoint control.
+    output_lock_path: /tmp/smartboat_px4_bridge_output.lock
+    target_system_id: 0
+    allowed_control_modes:
+      - AUTO.MISSION
+      - AUTO.LOITER
+      - MANUAL
+      - OFFBOARD
+    require_armed: true
+    require_activation: true
+    activation_timeout_sec: 0.8
+    fail_closed_on_activation_timeout: true
+    # In MANUAL, a dead/stale executor must return control to the RC operator.
+    # AUTO.MISSION retains fail-closed neutral behavior.
+    manual_release_on_activation_timeout: true
+
+    # Keep the physical RC enabled for the entire process lifetime. Automatic
+    # avoidance uses PX4 Offboard setpoints and never selects mode 1
+    # (MAVLink/joystick only). Both values intentionally remain 2 as a second
+    # line of defence against future accidental acquisition calls.
+    source_switching_enabled: true
+    mavlink_control_input_mode: 2
+    restore_control_input_mode: 2
+    source_switch_retry_sec: 1.0
+    # Retained for compatibility with older deployed parameter files; Offboard
+    # release now uses offboard_release_sec below.
+    release_neutral_sec: 0.5
+    manual_release_neutral_sec: 0.0
+    # PX4 requires a >2 Hz setpoint stream for at least one second before it
+    # accepts Offboard. Mission avoidance first requests HOLD during warmup.
+    offboard_warmup_sec: 1.10
+    offboard_release_sec: 0.50
+    offboard_mode_retry_sec: 1.00
+    # Never leave an old mode request retrying indefinitely. A rejected entry
+    # falls back to MANUAL/HOLD and locks out automation until operator action.
+    offboard_entry_timeout_sec: 4.00
+    # Differential Rover ignores MAVLink yaw-rate. Convert angular.z into a
+    # bounded body-frame vx/vy direction over this lookahead interval.
+    offboard_heading_lookahead_sec: 1.00
+    offboard_max_heading_offset_rad: 0.70
+    hold_before_offboard: true
+    # Normal MANUAL collision assistance may enter Offboard only while the
+    # measured critical sticks are centered. A MANUAL transition from an AUTO
+    # or Offboard session latches operator priority until the operator later
+    # makes an explicit MANUAL -> AUTO.MISSION mode transition.
+    manual_avoidance_enabled: true
+    mode_timeout_sec: 2.0
+    command_rate_hz: 20.0
+    heartbeat_timeout_sec: 5.0
+    reconnect_delay_sec: 2.0
+    cmd_timeout_sec: 0.5
+    max_linear_speed: 1.0
+    max_yaw_rate: 0.7
+    throttle_center: 500
+    # Independent hard clamp for both forward and reverse opening.
+    max_throttle_opening_percent: 50.0
+    # Conservative first production limits. A 0.35 rad/s detour maps to the
+    # already verified 15% steering command; slow/reverse thrust stays low.
+    throttle_scale: 250
+    steering_scale: 300
+    # Legacy manual-input tuning retained for configuration compatibility. The
+    # production output path now uses Offboard body-frame velocity vectors.
+    steering_mavlink_axis: "y"
+    # ROS angular.z is counter-clockwise positive; body-NED right is positive.
+    yaw_to_mavlink_sign: -1.0
+    neutral_on_timeout: true
+
+    # cmd_vel.linear.x is a desired ground speed (m/s), closed by fresh GPS
+    # ground speed. Missing/invalid GPS produces neutral, never open-loop thrust.
+    speed_closed_loop_enabled: true
+    ground_speed_topic: /smartboat/localization/ground_speed
+    ground_speed_valid_topic: /smartboat/localization/ground_speed_valid
+    ground_speed_input_timeout_sec: 0.5
+    speed_controller_kp: 0.8
+    speed_controller_ki: 0.25
+    speed_integral_limit: 2.0
+    speed_maximum_effort: 0.5
+    speed_overspeed_tolerance_mps: 0.05
+    speed_target_deadband_mps: 0.02
+
+    # GPS fallback requests MANUAL directly while RC remains enabled. It never
+    # waits for neutral sticks before handing authority to the operator.
+    manual_fallback_topic: /smartboat/control/manual_fallback_requested
+    manual_handoff_complete_topic: /smartboat/px4_bridge/manual_handoff_complete
+    # Highest-priority software escape path. PX4 TERMINATION uses the same safe
+    # MANUAL/RC handoff. A physical Kill is handled separately: the bridge stops
+    # Offboard output and keeps RC enabled, so PX4 can observe the switch
+    # returning below its kill threshold. If the
+    # physical Kill began in AUTO.MISSION, the bridge also requests an
+    # emergency force-disarm and requires PX4 to confirm disarmed MANUAL before
+    # clearing the latch.
+    emergency_kill_topic: /smartboat/control/emergency_kill
+    fallback_neutral_sec: 1.0
+    fallback_mode_retry_sec: 1.0
+    rc_channel_timeout_sec: 0.8
+    rc_minimum_rssi: 25
+    # Live RC identification: CH1 is steering and CH3 is forward/reverse.
+    rc_throttle_channel: 3
+    rc_steering_channel: 1
+    rc_neutral_pwm: 1500
+    # Live centered samples are approximately 1514 us. Entry accepts the
+    # natural center offset for 0.3 s; either primary stick moving more than
+    # 80 us immediately gives RC priority. RSSI=255 means "unknown" on this
+    # healthy receiver and is accepted only with fresh, valid channel data.
+    rc_throttle_neutral_pwm: 1514
+    rc_steering_neutral_pwm: 1514
+    rc_neutral_tolerance_pwm: 100
+    rc_takeover_threshold_pwm: 80
+    rc_entry_neutral_sec: 0.3
+    allow_unknown_rc_rssi: true
+    # A fresh zero-velocity command keeps braking in Offboard until the
+    # measured horizontal speed is below 0.2 m/s, then returns to MANUAL or
+    # HOLD so PX4's zero-speed closed loop cannot retain motor effort.
+    stop_speed_threshold_mps: 0.2
+    stop_command_deadband_mps: 0.02
+    # Live PX4 test: RC_MAP_KILL_SW=7, center~=1514, full Kill~=1933.
+    # RC_CHANNELS is the primary detector because PX4 STATUSTEXT is not always
+    # forwarded to every mavlink-router endpoint. Separate thresholds provide
+    # hysteresis; STATUSTEXT remains a secondary detector.
+    physical_kill_channel: 7
+    physical_kill_trigger_pwm: 1850
+    physical_kill_release_pwm: 1700
+    # Transition-only JSONL flight recorder. Generated runtime logs remain
+    # outside Git and allow reconstruction of mode/source/Kill state changes.
+    event_log_enabled: true
+    event_log_path: /workspace/boat_ws/log/smartboat_px4_bridge_events.jsonl
+    log_period_sec: 1.0

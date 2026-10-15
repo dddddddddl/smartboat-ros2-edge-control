@@ -1,0 +1,18 @@
+water_quality:
+  ros__parameters:
+    server_host: "111.229.242.175"
+    server_port: 11452
+    identity_dir: "/host_boot"
+    station_default: "test"
+    boat_default: "test01"
+    publish_period_sec: 1.0
+    reconnect_delay_sec: 5.0
+    serial_port: "auto"
+    serial_number: "CRADb2A6710"
+    serial_baud_rate: 9600
+    sensor_sample_rate_hz: 0.5
+    expected_parameter_codes: [5, 1, 18, 212, 48, 193, 215, 37]
+    sensor_startup_timeout_sec: 10.0
+    sensor_reconnect_delay_sec: 5.0
+    sensor_sample_max_age_sec: 5.0
+    sensor_sample_wait_timeout_sec: 20.0

@@ -1,0 +1,39 @@
+# Normalize text files in Git and keep Linux/container scripts safe on Windows.
+* text=auto eol=lf
+
+# Source and project files that must stay LF for Linux, Docker, ROS 2, and Python.
+*.py text eol=lf
+*.sh text eol=lf
+*.bash text eol=lf
+*.zsh text eol=lf
+*.launch.py text eol=lf
+Dockerfile* text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.xml text eol=lf
+*.cfg text eol=lf
+*.ini text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.desktop text eol=lf
+*.cmake text eol=lf
+CMakeLists.txt text eol=lf
+
+# Binary/runtime assets: never line-ending normalize or diff as text.
+*.onnx binary
+*.whl binary
+*.engine binary
+*.timing binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.zip binary
+*.tar binary
+*.tar.gz binary
+*.bundle binary
+*.so binary
+*.a binary
+*.o binary
+
+# Portfolio project poster.
+*.pptx binary

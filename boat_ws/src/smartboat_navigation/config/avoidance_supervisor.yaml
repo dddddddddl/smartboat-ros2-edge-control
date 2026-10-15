@@ -1,0 +1,47 @@
+avoidance_supervisor:
+  ros__parameters:
+    # Measured vessel geometry. Safety envelope adds 0.20 m on every side.
+    vessel_length_m: 1.20
+    vessel_width_m: 0.90
+    vessel_total_height_m: 0.80
+    vessel_draft_m: 0.20
+    clearance_each_side_m: 0.20
+    safety_length_m: 1.60
+    safety_width_m: 1.30
+    safety_height_m: 1.20
+    minimum_bridge_height_above_water_m: 0.80
+    maximum_bridge_length_m: 5.0
+
+    # First water-test operating limits.
+    cruise_speed_mps: 1.50
+    avoidance_speed_mps: 0.70
+
+    # Empirical braking run: 1.506 m/s -> 2.963 m in 4.800 s.
+    braking_reference_speed_mps: 1.506
+    braking_reference_distance_m: 2.963
+    perception_latency_sec: 0.20
+    actuation_latency_sec: 0.10
+    stopping_reserve_m: 0.50
+
+    # One available left-turn run. The 118.57 deg/s p95 sample is treated as
+    # telemetry noise until repeated; 35.72 deg/s is the nominal measured rate.
+    measured_turn_speed_mps: 1.257
+    measured_yaw_rate_deg_s: 35.72
+    measured_turn_radius_m: 2.016
+    conservative_yaw_rate_limit_deg_s: 30.0
+
+    # SR73F supplies early warning; D435i confirms geometry at close range.
+    radar_topic: /smartboat/perception/radar/closest_obstacle_distance
+    radar_slowdown_distance_m: 6.0
+    radar_emergency_ttc_sec: 2.5
+    radar_slowdown_ttc_sec: 5.0
+    radar_timeout_sec: 0.50
+    require_radar: true
+    camera_timeout_sec: 0.80
+    ground_speed_timeout_sec: 0.80
+    # Safety speed may only decrease at this physically plausible rate. This
+    # prevents one false low GPS sample from collapsing the stopping distance.
+    maximum_assumed_deceleration_mps2: 0.80
+    d435_reliable_distance_m: 3.0
+    camera_to_bow_m: 0.45
+    control_rate_hz: 10.0
