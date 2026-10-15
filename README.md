@@ -80,7 +80,7 @@ The main entry point is `ros2 launch smartboat_mission edge_nodes.launch.py`. **
 
 The supplied English poster presents SURF project 0634, historical water trials, hardware decomposition and shore interfaces. This edition includes the original poster and selected original figures in the [evidence gallery](docs/evidence.md).
 
-Some poster status statements predate the supplied code: it describes mock water sensing and an unimplemented ROS-native bridge, whereas the current implementation includes `ExoSensorProvider`, maintained perception, an avoidance executor and a ROS/PX4 command bridge. Read the [status table](docs/architecture.md#implementation-status) for the current source boundary.
+Some poster status statements differ from the supplied code: it describes mock water sensing and an unimplemented ROS-native bridge, whereas the current implementation includes `ExoSensorProvider`, maintained perception, an avoidance executor and a ROS/PX4 command bridge. Read the [status table](docs/architecture.md#implementation-status) for the current source boundary.
 
 Host checks and static inspection were repeated for this edition. Jetson container execution, GPU inference, ROS package builds, the real probe/radar and water trials were not repeated. The model bundle is preserved as a runtime asset, not included in ordinary Git history. No new accuracy, endurance or avoidance-success numbers are claimed.
 

@@ -10,6 +10,6 @@ The root [README](../README.md) provides the portfolio overview. Use the followi
 - [Team and acknowledgments](team.md)
 - [Original English SURF poster](presentation/smartboat_surf_project_poster.pptx)
 
-The original [Chinese maintenance guide](reference/maintenance_guide.zh-CN.md) and [field-test procedure](reference/field_test_procedure.zh-CN.md) are preserved as source references. They contain historical paths, earlier PID/control assumptions and some outdated status statements. Current code/configuration takes precedence when these differ. They are not presented as a current, validated field procedure for every vessel.
+The original [Chinese maintenance guide](reference/maintenance_guide.zh-CN.md) and [field-test procedure](reference/field_test_procedure.zh-CN.md) are preserved as source references. They contain deployment paths and PID/control assumptions that can differ from the current code. Current code/configuration takes precedence when these differ. They are not presented as a current, validated field procedure for every vessel.
 
 Original Chinese dashboard text and telemetry field labels remain in the code and screenshots for compatibility. The English guides provide an accessible explanation of the system. No runtime translation or new boat experiment was performed.

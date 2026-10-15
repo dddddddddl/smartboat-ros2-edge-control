@@ -6,7 +6,7 @@
 
 The important boundaries are output ownership, valid PX4 heartbeat, flight/armed state, fresh command/activation input and RC/manual takeover. An exclusive lock prevents two enabled bridge instances from controlling the same output path.
 
-The current implementation uses PX4 Offboard body-frame velocity setpoints. It retains RC input mode 2 and separate behavior for manual release, activation timeout, physical Kill and emergency handoff. The supplied configuration also enables a GPS-speed feedback controller. These are source behaviors; their physical timing and performance were not verified here.
+The current implementation uses PX4 Offboard body-frame velocity setpoints. It retains RC input mode 2 and separate behavior for manual release, activation timeout, physical Kill and emergency handoff. The configuration retains GPS-speed PI-controller settings in the manual-control helper. The active Offboard output path sends velocity setpoints and does not call that helper. These are source behaviors; their physical timing and performance were not verified here.
 
 ## Configuration and output default
 

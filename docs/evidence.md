@@ -26,4 +26,4 @@ The poster labels this a conceptual decomposition based on the project configura
 
 The screenshots illustrate project context. Their displayed values are not a new test dataset. The source here implements the edge side; it does not include the shore application's complete frontend/backend.
 
-The poster's implementation-status text describes an earlier stage. Current source-level capability is summarized in [architecture.md](architecture.md), and newly executed checks are separated in [validation.md](validation.md).
+The poster's implementation-status text differs from the supplied code. Current source-level capability is summarized in [architecture.md](architecture.md), and newly executed checks are separated in [validation.md](validation.md).

@@ -4,7 +4,7 @@
 
 The default composition includes EXO upload, D435i/EWaSR perception, dashboard streaming, SR73F radar, MAVLink yaw/speed, safety supervision, avoidance execution, the PX4 command bridge and a routing helper. Logging defaults to warnings; `debug:=true` enables detailed node logging. Individual enable arguments are declared in the launch file.
 
-`smartboat_mission/mavlink_autoconnect.py` reads vessel identity, requests a dedicated server port and starts the host-provided `mavlink-routerd` configuration. It is registered as the `mavlink_autoconnect` console entry, but the main launch executes it as a respawning non-ROS process. Older notes saying that it has no installed console entry are outdated.
+`smartboat_mission/mavlink_autoconnect.py` reads vessel identity, requests a dedicated server port and starts the host-provided `mavlink-routerd` configuration. It is registered as the `mavlink_autoconnect` console entry, but the main launch executes it as a respawning non-ROS process. Notes saying that it has no installed console entry conflict with the registration in `setup.py`.
 
 `config/edge_nodes.yaml` configures the EXO provider and upload service. The repository does not contain the shore service, host router installation/configuration or real deployment identity files. Existing endpoint defaults are preserved and were not contacted during preparation.
 

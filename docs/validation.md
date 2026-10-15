@@ -1,6 +1,6 @@
 # Validation record
 
-Checks in this record were performed for the portfolio edition on **October 15, 2026**, using a macOS host. They are separate from the historical field activities described in the supplied poster.
+Checks in this record were performed for the portfolio edition on **October 15, 2026**, using a macOS host. A source-to-document audit and offline test rerun were completed on **October 16, 2026**. These checks are separate from the historical field activities described in the supplied poster.
 
 ## Completed checks
 
@@ -9,7 +9,7 @@ Checks in this record were performed for the portfolio edition on **October 15, 
 | Existing offline test selection | **65 passed** across eight test files | Sensor protocol, fusion, safety/execution model, synchronization, text-cache and event-recording checks |
 | Python 3.10 grammar parsing | **71 files passed** | Syntax compatibility inspection of project Python sources; not execution under Python 3.10 |
 | Shell syntax | **7 scripts passed** | `bash -n`; scripts were not executed |
-| YAML parsing | **11 configurations passed** | YAML structure, not validation of ROS parameter semantics |
+| YAML parsing | **12 YAML files passed** | YAML structure, including Compose YAML; not validation of ROS parameters or Compose runtime semantics |
 | Package XML parsing | **8 manifests passed** | XML structure and package inventory |
 | Runtime archive integrity | Passed | 315,950,592 bytes and SHA-256 match the recorded archive checksum; three files at expected model/wheel paths |
 | Poster integrity | Passed | Uploaded presentation is byte-identical to the supplied PPTX |
@@ -34,4 +34,4 @@ The Python syntax and pure-model checks do not validate integration, field relia
 
 ## Original project evidence
 
-The poster and extracted figures document the project's reported platform, hardware and field activities. Some poster implementation-status text predates the inspected code. Source configuration contains reported braking/turning values, but no raw experiment logs establishing those values were supplied in this repository. No new performance numbers or per-person contribution claims were generated for the portfolio.
+The poster and extracted figures document the project's reported platform, hardware and field activities. Some poster implementation-status text differs from the inspected code. Source configuration contains reported braking/turning values, but no raw experiment logs establishing those values were supplied in this repository. No new performance numbers or per-person contribution claims were generated for the portfolio.

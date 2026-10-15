@@ -1,6 +1,6 @@
 # Architecture and implementation status
 
-The edge stack separates sensor acquisition, perception, safety assessment, command execution and visualization. This separation lets a dashboard/streaming failure remain outside the primary perception and control callbacks.
+The edge stack separates sensor acquisition, perception, safety assessment, command execution and visualization. Dashboard rendering and stream writes run in a separate node and worker rather than in the primary perception or control callbacks.
 
 ## Implementation status
 
@@ -16,17 +16,17 @@ The edge stack separates sensor acquisition, perception, safety assessment, comm
 | Mission composition | `edge_nodes.launch.py` starts installed nodes and the routing helper | Requires the shore service, router configuration and local device identity |
 | Localization/tools folders | Scaffolds | No dedicated state-estimation stack or packaged tools implementation |
 
-The supplied poster describes an earlier implementation stage. Its mock-provider and unimplemented ROS-bridge statements do not describe the current implementation.
+The poster and source differ in their implementation-status descriptions. The poster describes mock water sensing and an unimplemented ROS bridge, while the code contains an EXO provider and a ROS/PX4 bridge. The source table describes code content; it does not establish which components ran during the poster's field trials.
 
 ## Perception and data interfaces
 
 The RealSense node aligns color/depth inputs, performs EWaSR inference and publishes a typed `FusionDetection`. The pure `fusion_model.py` calculates obstacle evidence and a recommended straight/left/right decision. Its configuration bounds valid depth, obstacle pixel count and near-depth sampling. These are configuration choices, not measured accuracy claims.
 
-The dashboard consumes synchronized visualization inputs. It pairs exact timestamps and uses a latest-only worker for composition and stream writes, so it does not build a queue of obsolete frames or block the ROS callbacks on FFmpeg.
+The dashboard consumes synchronized visualization inputs. It pairs exact timestamps and uses a latest-only worker for composition and stream writes, which limits pending render work to the newest queued item and moves FFmpeg writes outside the ROS callbacks.
 
-The SR73F driver uses scan status `0x60A` for freshness and target messages `0x60B` for geometry. Its configured raw target window is 3–10 m ahead within the forward field of view. Source geometry applies the radar-to-bow offset before reporting an obstacle range. An empty fresh scan and a stale/no-frame sensor are distinct states.
+The SR73F driver uses scan status `0x60A` for freshness and target messages `0x60B` for geometry. Its configured target filter accepts radial distances of 3–10 m within a 112-degree forward field of view. Source geometry applies the radar-to-bow offset before reporting an obstacle range. An empty fresh scan and a stale/no-frame sensor are distinct states.
 
-The EXO provider validates the configured sensor parameter order before mapping samples to the existing server field labels. Sampling/reconnection is independent of WebSocket upload. The payload carries timestamp, station, boat and a list of name/value observations. Labels are intentionally unchanged Chinese strings because the existing shore server renders those names directly.
+The EXO provider validates the configured sensor parameter order before mapping samples to the existing server field labels. Sampling/reconnection is independent of WebSocket upload. The payload carries timestamp, station, boat and a list of name/value observations. The outgoing name/value records use the Chinese labels and units defined in `exo_serial.py`; the shore application itself is not included here.
 
 ## Main ROS topics
 
@@ -50,7 +50,7 @@ Topic types and exact defaults remain in the source/YAML; this table is a readin
 
 The supervisor recommends a response. The executor turns that assessment into mode-aware control requests. A single MAVLink command bridge applies output-enabled, armed/mode/heartbeat, activation and command-freshness gates before attempting PX4 output. An exclusive output lock prevents a second enabled bridge instance from sharing command ownership.
 
-The current bridge uses body-frame Offboard velocity setpoints and explicit RC/manual priority behavior. Several older comments and the preserved field-test document describe earlier manual-input or PID behavior. Read the actual bridge source and configuration for the current implementation.
+The current bridge uses body-frame Offboard velocity setpoints and explicit RC/manual priority behavior. Some source comments and the preserved field-test document describe manual-input or PID behavior that differs from the active Offboard path. Read the actual bridge source and configuration for the current implementation.
 
 The main YAML has `output_enabled: true`; automatic reverse in the executor is separately disabled by default because the maintained stack has no rear-clearance sensing. These settings were preserved. This edition did not activate the control chain, change modes, arm a controller or run a vehicle.
 

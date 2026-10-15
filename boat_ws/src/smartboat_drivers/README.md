@@ -13,6 +13,6 @@ Read the protocol helpers and `test/` first, then the hardware-facing nodes. The
 
 The water-quality node instantiates `ExoSensorProvider`, not a mock provider. Serial selection and parameter order are configured in `smartboat_mission/config/edge_nodes.yaml`. The default sample rate is 0.5 Hz; the WebSocket client has a separate upload/reconnect loop.
 
-The existing JSON payload uses `timestamp`, `station`, `boat` and `data` with name/value observations. Chinese measurement labels and their units remain unchanged because the shore interface uses those names. A WebSocket failure does not deliberately stop the provider's serial acquisition.
+The existing JSON payload uses `timestamp`, `station`, `boat` and `data` with name/value observations. Chinese measurement labels and their units follow the mappings in `exo_serial.py`. A WebSocket failure does not deliberately stop the provider's serial acquisition.
 
 Radar parsing and EXO record/mapping tests were run offline. The physical radar, EXO probe, adapters, permissions and remote upload service were not exercised. The edge repository does not include the shore web application's source.

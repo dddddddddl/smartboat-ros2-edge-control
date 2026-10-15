@@ -57,10 +57,10 @@ smartboat_navigation: avoidance_supervisor_node, avoidance_executor_node
 smartboat_px4_bridge: cmd_vel_to_mavlink_node
 ```
 
-Use `ros2 pkg executables <package>` in the built environment to inspect the installed entries. `mavlink_autoconnect` is installed as a console executable but runs as a non-ROS helper process in the main launch. The older maintenance guide's claim that it has no console entry is outdated.
+Use `ros2 pkg executables <package>` in the built environment to inspect the installed entries. `mavlink_autoconnect` is installed as a console executable but runs as a non-ROS helper process in the main launch. The maintenance guide's statement that it has no console entry conflicts with the current `setup.py` registration.
 
 ## Original operator material
 
-The [Chinese maintenance guide](reference/maintenance_guide.zh-CN.md) retains detailed target commands, NoMachine/display setup, sensor notes and troubleshooting. The [older field-test procedure](reference/field_test_procedure.zh-CN.md) contains historical PID and mode assumptions that differ from the current source. They remain useful project references, but their older default-output and mode statements should not be copied into a current live test without reconciling the code/configuration.
+The [Chinese maintenance guide](reference/maintenance_guide.zh-CN.md) retains detailed target commands, NoMachine/display setup, sensor notes and troubleshooting. The [field-test procedure](reference/field_test_procedure.zh-CN.md) contains PID and mode assumptions that differ from the current source. They remain useful project references, but their default-output and mode statements should not be copied into a current live test without reconciling the code/configuration.
 
 No Docker image build, ROS build, cloud/shore connection or hardware startup was performed on this macOS host. See [validation.md](validation.md) for what was checked instead.
