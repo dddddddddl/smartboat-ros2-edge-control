@@ -19,4 +19,4 @@ The workspace contains eight `package.xml` manifests. The last two entries are n
 
 `boat_ws/scripts/` contains manual diagnostics, benchmark tools and vendor references. They are preserved but are not the production launch API. The maintained launch resolves installed package executables, not the demo files.
 
-Large files expected outside Git are `models/ewasr_resnet18.onnx` and two Python 3.10/aarch64 wheels in `wheels/`. Restore them using [runtime-assets.md](../docs/runtime-assets.md). The upstream container uses `/workspace/boat_ws` as its workspace path.
+Large files expected outside Git are `models/ewasr_resnet18.onnx` and two Python 3.10/aarch64 wheels in `wheels/`. Restore them using [runtime-assets.md](../docs/runtime-assets.md). The container uses `/workspace/boat_ws` as its workspace path.

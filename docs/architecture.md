@@ -4,11 +4,11 @@ The edge stack separates sensor acquisition, perception, safety assessment, comm
 
 ## Implementation status
 
-| Area | Current source snapshot | Boundary |
+| Area | Current implementation | Boundary |
 |---|---|---|
 | Water-quality acquisition | `ExoSensorProvider` parses YSI EXO serial samples and supplies the WebSocket client | Real sensor integration exists in code; no probe was attached here |
 | Camera perception | `ewasr_fusion_node` acquires D435i frames and runs EWaSR/depth fusion | Model/Jetson dependencies are external runtime assets |
-| Visualization | `dashboard_stream_node` synchronizes color/depth/mask/detections and streams a composed dashboard | Preserves upstream Chinese text and SRT identity conventions |
+| Visualization | `dashboard_stream_node` synchronizes color/depth/mask/detections and streams a composed dashboard | Preserves the Chinese interface text and SRT identity conventions |
 | Radar | `sr73f_radar_node` manages SocketCAN and parses scan/target messages | Requires the intended CAN adapter, driver and radar |
 | Safety assessment | `SafetyModel` and ROS supervisor combine range, geometry, speed and freshness | Model tests are not proof of physical detection reliability |
 | Avoidance execution | `AvoidanceExecutionModel` and node handle mission/manual phases | Not a complete global route planner |
@@ -16,7 +16,7 @@ The edge stack separates sensor acquisition, perception, safety assessment, comm
 | Mission composition | `edge_nodes.launch.py` starts installed nodes and the routing helper | Requires the shore service, router configuration and local device identity |
 | Localization/tools folders | Scaffolds | No dedicated state-estimation stack or packaged tools implementation |
 
-The supplied poster describes an earlier implementation stage. Its mock-provider and unimplemented ROS-bridge statements do not describe all code in upstream commit `8728b8be6ead61c0110a7790d3042cdc4a029612`.
+The supplied poster describes an earlier implementation stage. Its mock-provider and unimplemented ROS-bridge statements do not describe the current implementation.
 
 ## Perception and data interfaces
 

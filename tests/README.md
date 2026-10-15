@@ -1,6 +1,6 @@
 # Offline host checks
 
-`run_host_checks.sh` selects eight existing upstream test files that can run without ROS, hardware, a model or shore services. No test assertions or runtime algorithms were changed for this portfolio edition.
+`run_host_checks.sh` selects eight existing test files that can run without ROS, hardware, a model or shore services. No test assertions or runtime algorithms were changed for this portfolio edition.
 
 From the repository root in an isolated virtual environment:
 
@@ -9,9 +9,9 @@ python -m pip install -r tests/requirements-host.txt
 bash tests/run_host_checks.sh
 ```
 
-The recorded result is **65 passed**. The dependency pins describe the host review environment and do not modify the upstream Jetson runtime, its Python 3.10 expectation, ONNX Runtime or TensorRT stack.
+The recorded result is **65 passed**. The dependency pins describe the host review environment and do not modify the Jetson runtime, its Python 3.10 expectation, ONNX Runtime or TensorRT stack.
 
-| Test area | Existing upstream file |
+| Test area | Existing test file |
 |---|---|
 | Radar payload and target window | `smartboat_drivers/test/test_sr73f_protocol.py` |
 | EXO serial records and telemetry field mapping | `smartboat_drivers/test/test_exo_serial.py` |
@@ -24,4 +24,4 @@ The recorded result is **65 passed**. The dependency pins describe the host revi
 
 Paths in the table are relative to `boat_ws/src/`. The cached-text test checks the rendering/cache mechanism; it does not independently verify Chinese font appearance on Jetson.
 
-ROS-dependent bridge, yaw and dashboard-node tests and the ament linters are preserved in their original packages. They were not run on this macOS host because ROS message bindings and `rclpy` were unavailable. Use the upstream ROS/colcon workflow in the target environment for those checks. No serial/CAN/GPU/vehicle test scripts were executed.
+ROS-dependent bridge, yaw and dashboard-node tests and the ament linters are preserved in their original packages. They were not run on this macOS host because ROS message bindings and `rclpy` were unavailable. Use the ROS/colcon workflow in the target environment for those checks. No serial/CAN/GPU/vehicle test scripts were executed.

@@ -14,6 +14,6 @@ This package contains the maintained camera/perception path and an independent v
 
 Start with `fusion_model.py` and its tests, then inspect the ROS node. The node publishes `smartboat_msgs/FusionDetection` on `/smartboat/perception/fusion/detection`. `config/ewasr_fusion.yaml` records the supplied depth/pixel/decision thresholds.
 
-The dashboard does not acquire the camera or publish safety decisions. It consumes complete matching color/depth/mask/detection inputs and streams frames independently. Display text, font expectations and the upstream SRT station/boat identity format are preserved.
+The dashboard does not acquire the camera or publish safety decisions. It consumes complete matching color/depth/mask/detection inputs and streams frames independently. Display text, font expectations and the SRT station/boat identity format are preserved.
 
 The default model is `boat_ws/models/ewasr_resnet18.onnx`, resolved through configuration, `SMARTBOAT_EWASR_MODEL` or target workspace paths. The model and architecture-specific wheels are supplied separately as [runtime assets](../../../docs/runtime-assets.md). No model inference, camera capture or stream connection was run in this preparation. Offline fusion, synchronization and text-cache tests passed.

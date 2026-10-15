@@ -7,13 +7,13 @@ Checks in this record were performed for the portfolio edition on **October 15, 
 | Check | Result | What it establishes |
 |---|---|---|
 | Existing offline test selection | **65 passed** across eight test files | Sensor protocol, fusion, safety/execution model, synchronization, text-cache and event-recording checks |
-| Python 3.10 grammar parsing | **71 files passed** | Syntax compatibility inspection of upstream Python sources; not execution under Python 3.10 |
-| Shell syntax | **7 upstream scripts passed** | `bash -n`; scripts were not executed |
+| Python 3.10 grammar parsing | **71 files passed** | Syntax compatibility inspection of project Python sources; not execution under Python 3.10 |
+| Shell syntax | **7 scripts passed** | `bash -n`; scripts were not executed |
 | YAML parsing | **11 configurations passed** | YAML structure, not validation of ROS parameter semantics |
 | Package XML parsing | **8 manifests passed** | XML structure and package inventory |
-| Runtime archive integrity | Passed | 315,950,592 bytes and SHA-256 match upstream; three files at expected model/wheel paths |
+| Runtime archive integrity | Passed | 315,950,592 bytes and SHA-256 match the recorded archive checksum; three files at expected model/wheel paths |
 | Poster integrity | Passed | Uploaded presentation is byte-identical to the supplied PPTX |
-| Source preservation | Checked against upstream inventory | Runtime source, tests, messages, configurations and Docker recipes retained without functional changes |
+| Source preservation | Checked against the pre-organization file inventory | Runtime source, tests, messages, configurations and Docker recipes retained without functional changes |
 
 The host test command is [tests/run_host_checks.sh](../tests/run_host_checks.sh). It invokes existing assertions, does not launch ROS nodes or substitute fake ROS bindings, and opens no vehicle/network connection.
 

@@ -2,7 +2,7 @@
 
 A Jetson-based ROS 2 stack for an unmanned surface vessel, combining RealSense/EWaSR perception, millimeter-wave radar, water-quality telemetry and a PX4/MAVLink control interface.
 
-This portfolio edition republishes a source snapshot from [xyx-chn/2026SURF_SmartBoat_ROS2_EdgeSide](https://github.com/xyx-chn/2026SURF_SmartBoat_ROS2_EdgeSide), with permission to publish confirmed by the portfolio owner. It adds English reading guides and the supplied SURF poster. Original team authorship is retained; see [provenance and preparation notes](docs/provenance.md) for the source revision and scope of this edition.
+Developed as a SURF team project at Xi'an Jiaotong-Liverpool University, SmartBoat supports water-quality monitoring and obstacle avoidance on an unmanned surface vessel. This repository contains the vessel's edge software, deployment guides, offline tests and English project poster.
 
 ![SmartBoat on the water](assets/field_trial.jpeg)
 
@@ -17,7 +17,7 @@ This portfolio edition republishes a source snapshot from [xyx-chn/2026SURF_Smar
 | Each ROS package and the important source files | [Workspace reading guide](boat_ws/README.md) |
 | How to restore the model/wheels and build on Jetson | [Deployment guide](docs/deployment.md) and [runtime assets](docs/runtime-assets.md) |
 | What can be checked without a boat | [Host checks](tests/README.md) and [validation record](docs/validation.md) |
-| Source revision, credits and changes in this edition | [Provenance](docs/provenance.md) |
+| Project team, acknowledgments and documentation notes | [Team and acknowledgments](docs/team.md) |
 
 ## What the code contains
 
@@ -46,7 +46,7 @@ flowchart LR
     M[MAVLink routing helper] --> F
 ```
 
-Topic names and package interfaces are listed in the [architecture guide](docs/architecture.md). Existing Chinese telemetry labels and dashboard text remain unchanged for compatibility with the upstream shore interface. The English guides explain them without changing the data contract.
+Topic names and package interfaces are listed in the [architecture guide](docs/architecture.md). Existing Chinese telemetry labels and dashboard text remain unchanged for compatibility with the shore interface. The English guides explain them without changing the data contract.
 
 ## Review without hardware
 
@@ -59,13 +59,13 @@ python -m pip install -r tests/requirements-host.txt
 bash tests/run_host_checks.sh
 ```
 
-**65 existing upstream tests passed** in the recorded host environment. They cover radar parsing, EXO records, depth/mask fusion, safety decisions, avoidance execution, dashboard synchronization/text caching and event recording. This does not establish real vessel performance or validate live PX4/ROS transport.
+**65 offline tests passed** in the recorded host environment. They cover radar parsing, EXO records, depth/mask fusion, safety decisions, avoidance execution, dashboard synchronization/text caching and event recording. This does not establish real vessel performance or validate live PX4/ROS transport.
 
 ## Jetson deployment
 
-The intended target remains **Jetson/aarch64, Ubuntu 22.04, ROS 2 Humble and Python 3.10**, with the upstream CUDA/TensorRT/RealSense stack. The Docker recipe requires the original model/wheel asset bundle before it can be reproduced. See [deployment](docs/deployment.md) for the exact paths and external host services.
+The intended target remains **Jetson/aarch64, Ubuntu 22.04, ROS 2 Humble and Python 3.10**, with the CUDA/TensorRT/RealSense stack. The Docker recipe requires the original model/wheel asset bundle before it can be reproduced. See [deployment](docs/deployment.md) for the exact paths and external host services.
 
-After restoring runtime assets and preparing the Jetson host, the upstream build inside the container is:
+After restoring runtime assets and preparing the Jetson host, the workspace build inside the container is:
 
 ```bash
 cd /workspace/boat_ws
@@ -80,14 +80,14 @@ The main entry point is `ros2 launch smartboat_mission edge_nodes.launch.py`. **
 
 The supplied English poster presents SURF project 0634, historical water trials, hardware decomposition and shore interfaces. This edition includes the original poster and selected original figures in the [evidence gallery](docs/evidence.md).
 
-Some poster status statements predate the supplied code: it describes mock water sensing and an unimplemented ROS-native bridge, whereas this source snapshot includes `ExoSensorProvider`, maintained perception, an avoidance executor and a ROS/PX4 command bridge. Read the [status table](docs/architecture.md#implementation-status) for the current source boundary.
+Some poster status statements predate the supplied code: it describes mock water sensing and an unimplemented ROS-native bridge, whereas the current implementation includes `ExoSensorProvider`, maintained perception, an avoidance executor and a ROS/PX4 command bridge. Read the [status table](docs/architecture.md#implementation-status) for the current source boundary.
 
 Host checks and static inspection were repeated for this edition. Jetson container execution, GPU inference, ROS package builds, the real probe/radar and water trials were not repeated. The model bundle is preserved as a runtime asset, not included in ordinary Git history. No new accuracy, endurance or avoidance-success numbers are claimed.
 
-## Team and source credit
+## Project team and acknowledgments
 
-The supplied poster credits **Yuxiao Xie, Kaihan Ouyang, Siyuan Lin, Ruoxi Zhu, Shengzhe Li and Yijia Cao**, with supervisors **Xiaohui Zhu and Yong Yue**, at Xi'an Jiaotong-Liverpool University. Individual module contributions were not specified, so this edition retains team attribution.
+The project team comprises **Yuxiao Xie, Kaihan Ouyang, Siyuan Lin, Ruoxi Zhu, Shengzhe Li and Yijia Cao**, supervised by **Xiaohui Zhu and Yong Yue** at Xi'an Jiaotong-Liverpool University.
 
 The poster reports a **National Second Prize in the 15th National Marine Vehicle Design and Manufacturing Competition**. That statement is attributed to the poster; a separate award certificate was not supplied for this repository.
 
-The upstream repository has no top-level project license, and several package license fields remain placeholders. Existing third-party notices and upstream authorship are retained. This portfolio edition does not add or imply a repository-wide open-source license.
+See [team and acknowledgments](docs/team.md) for project credits and third-party components.

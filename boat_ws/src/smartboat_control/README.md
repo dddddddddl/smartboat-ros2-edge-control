@@ -6,4 +6,4 @@ Read `yaw_from_mavlink_node.py` for heartbeat filtering, source-system selection
 
 The old camera-only avoidance PID is retained under `smartboat_bringup/legacy/avoidance_pid`, outside this maintained package. Its earlier field-test assumptions should not replace the current executor/bridge behavior.
 
-The upstream yaw tests are preserved but import ROS-dependent modules, so they were not executed on this macOS host. No live IMU or MAVLink stream was opened.
+The yaw tests are preserved but import ROS-dependent modules, so they were not executed on this macOS host. No live IMU or MAVLink stream was opened.

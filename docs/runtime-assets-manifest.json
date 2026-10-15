@@ -2,7 +2,6 @@
   "archive": "smartboat-runtime-assets.tar.gz",
   "bytes": 315950592,
   "sha256": "72e25bfbc07b9caa696996f544dd1e87aeb37cd7b59b4f2f2d2c8b9ba6a38dd0",
-  "upstream_asset_id": 460800966,
   "files": [
     {
       "path": "boat_ws/models/ewasr_resnet18.onnx",
@@ -19,5 +18,6 @@
       "bytes": 5675266,
       "sha256": "6774d237a61ac8ce5b8e3a7861b4e968b22da63a795bd0b20d52f5d729824211"
     }
-  ]
+  ],
+  "download_url": "https://github.com/dddddddddl/smartboat-ros2-edge-control/releases/download/portfolio-v1.0/smartboat-runtime-assets.tar.gz"
 }

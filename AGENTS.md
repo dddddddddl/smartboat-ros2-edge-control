@@ -1,6 +1,6 @@
 # AGENTS.md - Smartboat Codex Guide
 
-This file is the short, high-priority guide for Codex or other coding agents working in this repository. Keep it concise. Use `README.md` for the English project guide and `docs/upstream/maintenance_guide.zh-CN.md` for the original maintenance manual.
+This file is the short, high-priority guide for Codex or other coding agents working in this repository. Keep it concise. Use `README.md` for the English project guide and `docs/reference/maintenance_guide.zh-CN.md` for the original maintenance manual.
 
 ## Repository Root
 
