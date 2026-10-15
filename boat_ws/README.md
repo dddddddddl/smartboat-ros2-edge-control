@@ -1,22 +1,24 @@
-# ROS 2 workspace reading guide
+# ROS 2 workspace source guide
 
-Read the packages in data-flow order. Each maintained package has a short English guide describing its sources, configuration and boundaries.
+The [SURF poster](../docs/presentation/smartboat_surf_project_poster.pptx) defines the reported project status: video streaming, mock-data telemetry, MAVLink routing and D435i test tools are implemented; real sensing and ROS-native navigation/control integration remain development work.
 
-| Package | Responsibility | Source status |
+This table describes files available for inspection. It does not label every package as a completed project outcome.
+
+| Directory | Source contents | Presentation status |
 |---|---|---|
-| [smartboat_drivers](src/smartboat_drivers/README.md) | SR73F radar and YSI EXO acquisition/upload | Implemented modules and protocol tests |
-| [smartboat_perception](src/smartboat_perception/README.md) | RealSense, EWaSR/depth fusion and dashboard stream | Maintained ROS nodes and pure fusion/pipeline tests |
-| [smartboat_msgs](src/smartboat_msgs/README.md) | Typed fusion/radar messages | Four message definitions |
-| [smartboat_control](src/smartboat_control/README.md) | MAVLink/IMU yaw and speed inputs | Implemented input nodes |
-| [smartboat_navigation](src/smartboat_navigation/README.md) | Safety assessment and avoidance execution | Maintained nodes and independently testable models |
-| [smartboat_px4_bridge](src/smartboat_px4_bridge/README.md) | Single vehicle command bridge and event recording | Implemented module; ROS/hardware operation unverified here |
-| [smartboat_mission](src/smartboat_mission/README.md) | Main launch composition and MAVLink helper | Implemented launch and helper |
-| [smartboat_bringup](src/smartboat_bringup/README.md) | Package skeleton and retired PID reference | Legacy, outside maintained control path |
-| [smartboat_localization](src/smartboat_localization/README.md) | Future localization/state estimation | Directory scaffold only |
-| [smartboat_tools](src/smartboat_tools/README.md) | Future packaged diagnostics | Directory scaffold only |
+| [smartboat_drivers](src/smartboat_drivers/README.md) | Telemetry client, EXO provider and SR73F radar code | Mock-data upload reported; real-sensor/radar modules retained as development source |
+| [smartboat_perception](src/smartboat_perception/README.md) | EWaSR/depth and ROS dashboard modules | Poster reports test/inference tools; ROS integration is development work |
+| [smartboat_msgs](src/smartboat_msgs/README.md) | Four message definitions | Custom messages under development |
+| [smartboat_control](src/smartboat_control/README.md) | MAVLink/IMU yaw and speed-input modules | Control integration under development |
+| [smartboat_navigation](src/smartboat_navigation/README.md) | Safety and avoidance-execution models/nodes | Navigation integration under development |
+| [smartboat_px4_bridge](src/smartboat_px4_bridge/README.md) | Command bridge and event recorder | ROS-native bridge under development |
+| [smartboat_mission](src/smartboat_mission/README.md) | Main launch and MAVLink routing helper | Routing reported; additional launch components are development source |
+| [smartboat_bringup](src/smartboat_bringup/README.md) | Package skeleton and camera-only PID reference | Reference source; no separate completion claim |
+| [smartboat_localization](src/smartboat_localization/README.md) | Directory scaffold | Localization under development |
+| [smartboat_tools](src/smartboat_tools/README.md) | Directory scaffold | No implemented packaged tools |
 
-The workspace contains eight `package.xml` manifests. The last two entries are not installed ROS packages simply because their directories exist.
+Eight directories contain `package.xml` manifests. `smartboat_localization` and `smartboat_tools` do not contain package manifests.
 
-`boat_ws/scripts/` contains manual diagnostics, benchmark tools and vendor references. They are preserved but are not the production launch API. The maintained launch resolves installed package executables, not the demo files.
+`boat_ws/scripts/` holds manual diagnostics, D435i smoke/inference tools, radar utilities and vendor references. See its [guide](scripts/README.md).
 
-Large files expected outside Git are `models/ewasr_resnet18.onnx` and two Python 3.10/aarch64 wheels in `wheels/`. Restore them using [runtime-assets.md](../docs/runtime-assets.md). The container uses `/workspace/boat_ws` as its workspace path.
+The container workspace is `/workspace/boat_ws`. Restore the ONNX model and Python 3.10/aarch64 wheels using [runtime-assets.md](../docs/runtime-assets.md). Building or testing the supplied source does not change the project-status claims in the poster.

@@ -1,15 +1,14 @@
 # Project documentation
 
-The root [README](../README.md) provides the portfolio overview. Use the following guides for technical review:
+The [English SURF poster](presentation/smartboat_surf_project_poster.pptx) is the reference for project methods and reported completion status. Start with the root [README](../README.md), then use:
 
-- [Architecture and current implementation status](architecture.md)
-- [Jetson deployment and prerequisites](deployment.md)
-- [Model and wheel runtime assets](runtime-assets.md)
-- [Original project evidence](evidence.md)
-- [Validation record](validation.md)
+- [Architecture and poster-defined project status](architecture.md)
+- [Source build guide and target prerequisites](deployment.md)
+- [Model and wheel downloads](runtime-assets.md)
+- [Project photographs and interface screenshots](evidence.md)
+- [Repository-preparation checks](validation.md)
 - [Team and acknowledgments](team.md)
-- [Original English SURF poster](presentation/smartboat_surf_project_poster.pptx)
 
-The original [Chinese maintenance guide](reference/maintenance_guide.zh-CN.md) and [field-test procedure](reference/field_test_procedure.zh-CN.md) are preserved as source references. They contain deployment paths and PID/control assumptions that can differ from the current code. Current code/configuration takes precedence when these differ. They are not presented as a current, validated field procedure for every vessel.
+The [Chinese maintenance guide](reference/maintenance_guide.zh-CN.md), [field-test procedure](reference/field_test_procedure.zh-CN.md) and [diagnostic guide](reference/diagnostics_guide.zh-CN.md) are retained as technical references for source inspection. Their implementation-status statements do not override the poster in this project presentation.
 
-Original Chinese dashboard text and telemetry field labels remain in the code and screenshots for compatibility. The English guides provide an accessible explanation of the system. No runtime translation or new boat experiment was performed.
+Original Chinese interface labels and screenshots are retained. English source guides identify development modules without claiming that they complete the poster's pending milestones.

@@ -2,6 +2,10 @@
 
 This file is the short, high-priority guide for Codex or other coding agents working in this repository. Keep it concise. Use `README.md` for the English project guide and `docs/reference/maintenance_guide.zh-CN.md` for the original maintenance manual.
 
+## Project presentation
+
+Use the supplied SURF poster as the authority for reported project completion status. Runtime inventories below describe available code, including development modules; do not present source presence or offline test passes as completion of the poster's pending real-sensor, ROS bridge, message, navigation, localization or control milestones. Preserve actual runtime settings when documenting build and hardware behavior.
+
 ## Repository Root
 
 The Git repository root is:

@@ -1,56 +1,51 @@
-# SmartBoat: ROS 2 Edge Perception and Control
+# SmartBoat: Water-Quality Monitoring and Autonomous Obstacle Avoidance
 
-A Jetson-based ROS 2 stack for an unmanned surface vessel, combining RealSense/EWaSR perception, millimeter-wave radar, water-quality telemetry and a PX4/MAVLink control interface.
+A SURF team project at Xi'an Jiaotong-Liverpool University, developing a Jetson-based edge-computing and telemetry platform for an unmanned surface vessel.
 
-Developed as a SURF team project at Xi'an Jiaotong-Liverpool University, SmartBoat supports water-quality monitoring and obstacle avoidance on an unmanned surface vessel. This repository contains the vessel's edge software, deployment guides, offline tests and English project poster.
+Our platform combines ROS 2 Humble in Docker, camera streaming, water-quality telemetry and a PX4/MAVLink mission link. D435i test tools combine EWaSR segmentation with depth information for obstacle perception.
 
 ![SmartBoat on the water](assets/field_trial.jpeg)
 
-*Project field photograph extracted unchanged from the supplied poster. It documents a historical trial, not a new experiment performed for this repository edition.*
+*Project field photograph from the English SURF poster.*
 
 ## Start here
 
 | To understand… | Open… |
 |---|---|
-| The vessel, project purpose and original visual evidence | [English SURF poster](docs/presentation/smartboat_surf_project_poster.pptx) |
-| How the software layers communicate | [Architecture and current status](docs/architecture.md) |
-| Each ROS package and the important source files | [Workspace reading guide](boat_ws/README.md) |
-| How to restore the model/wheels and build on Jetson | [Deployment guide](docs/deployment.md) and [runtime assets](docs/runtime-assets.md) |
-| What can be checked without a boat | [Host checks](tests/README.md) and [validation record](docs/validation.md) |
-| Project team, acknowledgments and documentation notes | [Team and acknowledgments](docs/team.md) |
+| Project purpose, methods and reported field activities | [English SURF poster](docs/presentation/smartboat_surf_project_poster.pptx) |
+| System architecture and project status | [Architecture](docs/architecture.md) |
+| Available source files and development modules | [Workspace guide](boat_ws/README.md) |
+| Photographs, hardware concept and interface screenshots | [Project evidence](docs/evidence.md) |
+| Jetson prerequisites and model/wheel downloads | [Build guide](docs/deployment.md) and [runtime assets](docs/runtime-assets.md) |
+| Checks that can run without a boat | [Offline checks](tests/README.md) and [validation record](docs/validation.md) |
+| Team members and acknowledgments | [Project team](docs/team.md) |
 
-## What the code contains
+## Approach
 
-- **Perception:** a maintained RealSense D435i ROS node runs EWaSR ONNX inference and combines segmentation with aligned depth. A separate dashboard process synchronizes complete frames and streams visualization through FFmpeg/SRT.
-- **Radar and water quality:** the SR73F driver reads SocketCAN scans and targets. The YSI EXO provider reads RS-232 samples and sends water-quality records through the existing WebSocket protocol.
-- **Avoidance and vehicle interface:** the safety supervisor combines radar, camera and speed freshness. A separate execution state machine produces mode-aware control requests. The PX4 bridge handles output ownership, heartbeat/command gates, manual takeover and a transition event recorder.
-- **Mission composition:** the main launch starts maintained ROS nodes and the installed MAVLink routing helper. Standalone diagnostic scripts and the retired PID remain separate from the maintained control chain.
+- **Edge platform:** Jetson Orin NX runs ROS 2 Humble in Docker with CUDA-capable runtime access.
+- **Video and perception:** Hikvision RTSP video is forwarded by FFmpeg to an external SRT service. D435i test tools acquire camera/depth/IMU data and use EWaSR ResNet-18 ONNX inference for water and obstacle segmentation.
+- **Water-quality telemetry:** a `SensorProvider` interface supplies timestamped name/value records, which are uploaded by WebSocket with station and vessel identity.
+- **Mission link:** a helper requests a dedicated server port, and `mavlink-routerd` connects the PX4/MAVLink stream to the shore side. Operators use the shore interface for waypoint missions.
 
-The `smartboat_localization` and `smartboat_tools` directories are reserved scaffolds. A shore-side application, PX4 firmware, trained-model generation and a complete global mission planner are not implemented by this edge repository.
+## Project status
 
-## System overview
+The supplied SURF poster is the reference for the project's reported completion status. Source files for additional modules are retained as development work; their presence and offline test results do not establish that the poster's pending milestones were completed.
 
-```mermaid
-flowchart LR
-    C[RealSense D435i] --> P[EWaSR and depth fusion]
-    R[SR73F radar] --> S[Safety supervisor]
-    P --> S
-    Y[MAVLink yaw and ground speed] --> S
-    S --> E[Avoidance executor]
-    E --> B[Single PX4 command bridge]
-    B --> F[PX4 flight controller]
-    P --> D[Independent dashboard stream]
-    D --> V[Shore SRT viewer]
-    Q[YSI EXO serial probe] --> T[Water-quality provider]
-    T --> W[Shore WebSocket service]
-    M[MAVLink routing helper] --> F
-```
+| Status in the poster | Scope |
+|---|---|
+| Implemented / runnable | SRT camera streaming; WebSocket water-quality upload with mock data; MAVLink dynamic-port routing; D435i smoke tests and inference tools |
+| Under development | Real water-quality `SensorProvider`; ROS-native PX4 bridge and custom messages; navigation, localization and control packages |
+| Further evaluation | Quantified accuracy, endurance and avoidance success rate |
 
-Topic names and package interfaces are listed in the [architecture guide](docs/architecture.md). Existing Chinese telemetry labels and dashboard text remain unchanged for compatibility with the shore interface. The English guides explain them without changing the data contract.
+The poster describes water-quality upload with `MockSensorProvider` and the D435i pipeline as test/inference tools, rather than a completed packaged ROS 2 navigation system. This repository does not present the additional sensor/control modules as completed project outcomes.
 
-## Review without hardware
+## Reported field activities
 
-The offline test selection uses no ROS graph, serial devices, CAN interfaces, model inference or external network services:
+The poster reports repeated trials at Dushu Lake and the campus pond covering manual control, waypoint missions, obstacle avoidance and water-quality workflows. See the [poster](docs/presentation/smartboat_surf_project_poster.pptx) and [evidence gallery](docs/evidence.md) for the original descriptions, photographs and interface screenshots.
+
+These activities demonstrate the intended integrated workflow. No measured accuracy, endurance, avoidance-success or latency figures are supplied here.
+
+## Review the source without hardware
 
 ```bash
 python3 -m venv /tmp/smartboat-host-checks
@@ -59,35 +54,24 @@ python -m pip install -r tests/requirements-host.txt
 bash tests/run_host_checks.sh
 ```
 
-**65 offline tests passed** in the recorded host environment. They cover radar parsing, EXO records, depth/mask fusion, safety decisions, avoidance execution, dashboard synchronization/text caching and event recording. This does not establish real vessel performance or validate live PX4/ROS transport.
+**65 offline tests passed** during repository preparation. They inspect the supplied source, including development modules, without starting ROS nodes, model inference, hardware or shore connections. They are separate from the poster's reported field activities and do not change its completion status.
 
-## Jetson deployment
+## Jetson build and runtime assets
 
-The intended target remains **Jetson/aarch64, Ubuntu 22.04, ROS 2 Humble and Python 3.10**, with the CUDA/TensorRT/RealSense stack. The Docker recipe requires the original model/wheel asset bundle before it can be reproduced. See [deployment](docs/deployment.md) for the exact paths and external host services.
+The supplied build targets Jetson/aarch64, Ubuntu 22.04, ROS 2 Humble and Python 3.10. The model and two architecture-specific wheels are available from this repository's [public Release](https://github.com/dddddddddl/smartboat-ros2-edge-control/releases/tag/portfolio-v1.0), with [download and restoration instructions](docs/runtime-assets.md).
 
-After restoring runtime assets and preparing the Jetson host, the workspace build inside the container is:
+Use the [build guide](docs/deployment.md) to inspect the supplied source on the target platform. It is not a reconstruction of the poster's exact trial configuration. The supplied main launch also enables development control modules and a command bridge configured with `output_enabled: true`; review those settings before connecting hardware.
 
-```bash
-cd /workspace/boat_ws
-source /opt/ros/humble/setup.bash
-colcon build --symlink-install --packages-skip librealsense2
-source install/setup.bash
-```
+## Limitations and next steps
 
-The main entry point is `ros2 launch smartboat_mission edge_nodes.launch.py`. **Its supplied configuration enables the hardware command bridge and sets `output_enabled: true`, subject to further gates.** Read the [control guide](boat_ws/src/smartboat_px4_bridge/README.md) before a live start. No boat, controller or external shore service was contacted during this portfolio preparation.
+Following the poster, the next steps are real water-quality sensor integration, ROS-native messages and the PX4 bridge, navigation/localization/control integration, and controlled performance evaluation. The repository does not contain the complete shore application, PX4 firmware, model training data or raw quantitative field-test records.
 
-## Evidence and limitations
-
-The supplied English poster presents SURF project 0634, historical water trials, hardware decomposition and shore interfaces. This edition includes the original poster and selected original figures in the [evidence gallery](docs/evidence.md).
-
-Some poster status statements differ from the supplied code: it describes mock water sensing and an unimplemented ROS-native bridge, whereas the current implementation includes `ExoSensorProvider`, maintained perception, an avoidance executor and a ROS/PX4 command bridge. Read the [status table](docs/architecture.md#implementation-status) for the current source boundary.
-
-Host checks and static inspection were repeated for this edition. Jetson container execution, GPU inference, ROS package builds, the real probe/radar and water trials were not repeated. The model bundle is preserved as a runtime asset, not included in ordinary Git history. No new accuracy, endurance or avoidance-success numbers are claimed.
+Jetson/ROS builds, GPU inference and physical vessel operation were not repeated during repository preparation. Existing Chinese interface labels and original reference manuals are retained; the English guides explain the project and source layout.
 
 ## Project team and acknowledgments
 
-The project team comprises **Yuxiao Xie, Kaihan Ouyang, Siyuan Lin, Ruoxi Zhu, Shengzhe Li and Yijia Cao**, supervised by **Xiaohui Zhu and Yong Yue** at Xi'an Jiaotong-Liverpool University.
+Our team comprises **Yuxiao Xie, Kaihan Ouyang, Siyuan Lin, Ruoxi Zhu, Shengzhe Li and Yijia Cao**, supervised by **Xiaohui Zhu and Yong Yue** at Xi'an Jiaotong-Liverpool University.
 
-The poster reports a **National Second Prize in the 15th National Marine Vehicle Design and Manufacturing Competition**. That statement is attributed to the poster; a separate award certificate was not supplied for this repository.
+The poster reports a **National Second Prize in the 15th National Marine Vehicle Design and Manufacturing Competition**. A separate award certificate is not included in this repository.
 
-See [team and acknowledgments](docs/team.md) for project credits and third-party components.
+See [team and acknowledgments](docs/team.md) for credits and third-party components.

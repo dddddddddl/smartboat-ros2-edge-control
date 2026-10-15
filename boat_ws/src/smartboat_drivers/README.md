@@ -1,18 +1,16 @@
-# Radar and water-quality drivers
+# Sensor and telemetry source
 
-This package contains the maintained SR73F radar driver and YSI EXO water-quality acquisition/upload path.
+**Project status from the poster:** WebSocket upload with mock data is implemented; real water-quality sensor integration remains under development.
 
-| Source | Responsibility |
+| Source | Inspection guide |
 |---|---|
-| `sr73f_protocol.py` | Pure CAN target decoding and target-window helpers |
-| `sr73f_radar_node.py` | SocketCAN interface management, scan freshness and ROS radar output |
-| `exo_serial.py` | USB serial selection, EXO command/sample protocol and sensor provider |
-| `water_quality_node.py` | Device identity, asynchronous WebSocket client and provider injection |
+| `water_quality_node.py` | Sensor-provider interface, identity loading and WebSocket payload/client |
+| `exo_serial.py` | EXO serial protocol, field mapping and provider development source |
+| `sr73f_protocol.py` | Radar CAN decoding and target-window helpers |
+| `sr73f_radar_node.py` | SocketCAN and ROS radar development source |
 
-Read the protocol helpers and `test/` first, then the hardware-facing nodes. The radar uses scan status `0x60A` and target data `0x60B`; its maintained configuration is `config/sr73f_radar.yaml`. It can configure a down SocketCAN interface using the configured passwordless `sudo -n ip link` setup. It does not depend on a demo script for production startup.
+The supplied node references `ExoSensorProvider`. Its presence is retained for code review and is not presented as completion of the poster's pending real-sensor milestone. The poster does not establish completed SR73F integration, so the radar files are not claimed as a demonstrated project outcome.
 
-The water-quality node instantiates `ExoSensorProvider`, not a mock provider. Serial selection and parameter order are configured in `smartboat_mission/config/edge_nodes.yaml`. The default sample rate is 0.5 Hz; the WebSocket client has a separate upload/reconnect loop.
+`smartboat_mission/config/edge_nodes.yaml` contains sensor/upload settings, and `config/sr73f_radar.yaml` contains radar settings. The JSON upload structure uses `timestamp`, `station`, `boat` and `data`; Chinese measurement labels follow `exo_serial.py`.
 
-The existing JSON payload uses `timestamp`, `station`, `boat` and `data` with name/value observations. Chinese measurement labels and their units follow the mappings in `exo_serial.py`. A WebSocket failure does not deliberately stop the provider's serial acquisition.
-
-Radar parsing and EXO record/mapping tests were run offline. The physical radar, EXO probe, adapters, permissions and remote upload service were not exercised. The edge repository does not include the shore web application's source.
+Existing protocol/mapping tests passed offline. No physical probe, radar, serial/CAN device or shore upload service was exercised during repository preparation.

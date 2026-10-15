@@ -1,16 +1,16 @@
-# Safety supervision and avoidance execution
+# Navigation development source
 
-This package provides local safety assessment and a separate execution state machine. Its name does not imply that a complete global waypoint planner is included.
+**Project status from the poster:** navigation, localization and control integration remain under development; quantified avoidance performance remains future evaluation work.
 
-| Source | Responsibility |
+| Source | Inspection guide |
 |---|---|
-| `safety_model.py` | Pure safety logic using sensor freshness, range, speed and vessel geometry |
-| `avoidance_supervisor_node.py` | ROS inputs and safety/recommendation outputs |
-| `avoidance_execution_model.py` | Pure mission/manual avoidance phases and transition logic |
-| `avoidance_executor_node.py` | ROS execution wrapper and activation/command publication |
+| `safety_model.py` | Sensor freshness, ranges, speed and vessel-geometry logic |
+| `avoidance_supervisor_node.py` | ROS assessment inputs and recommendation outputs |
+| `avoidance_execution_model.py` | Mission/manual execution-state model |
+| `avoidance_executor_node.py` | ROS wrapper for execution requests |
 
-Read the two pure models with their test files before the ROS wrappers. The supervisor publishes recommendations at `/smartboat/navigation/avoidance_cmd_vel` and status at `/smartboat/navigation/avoidance_supervisor_status`. The executor publishes the maintained command request at `/smartboat/control/cmd_vel` and activation at `/smartboat/control/avoidance_active`.
+The two pure models and their existing tests provide a way to inspect development logic without ROS. Their offline tests passed; this is not a completed navigation-system or on-water avoidance result.
 
-`config/avoidance_supervisor.yaml` contains vessel dimensions, sensing ranges, timeout assumptions and source-reported motion measurements. The raw experiments behind those measurements are not included in this source snapshot. `config/avoidance_executor.yaml` configures mission/manual speeds and timeouts. Automatic reverse is disabled by default because rear clearance is not sensed by the maintained stack.
+The source includes supervisor and executor YAML configurations. The executor's automatic reverse setting is false, with a comment that rear-clearance sensing is absent. Existing parameter values are retained, not promoted to independently verified performance measurements.
 
-The command bridge owns final PX4 output. Recommendations, an executor request and actual actuator output are distinct stages. This edition preserved the source/configuration and ran the existing pure safety/execution tests; it did not run live ROS or move a vessel.
+This directory does not contain a complete global mission planner. No ROS navigation launch or vessel movement was performed during repository preparation.

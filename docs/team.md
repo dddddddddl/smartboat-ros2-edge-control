@@ -16,6 +16,6 @@ The stack uses ROS 2, PX4/MAVLink, OpenCV, RealSense, EWaSR and NVIDIA platform 
 
 The English reading guides, offline test runner and validation record were added while preparing this repository for review. They document the implementation without changing its runtime algorithms, control settings or existing test assertions.
 
-The poster and the Chinese [maintenance guide](reference/maintenance_guide.zh-CN.md), [field-test procedure](reference/field_test_procedure.zh-CN.md) and [diagnostic guide](reference/diagnostics_guide.zh-CN.md) are retained as project references. Some implementation-status descriptions differ from the current code; the architecture guide records those differences.
+The poster and the Chinese [maintenance guide](reference/maintenance_guide.zh-CN.md), [field-test procedure](reference/field_test_procedure.zh-CN.md) and [diagnostic guide](reference/diagnostics_guide.zh-CN.md) are retained as project references. The poster defines the reported project status; the manuals and package guides provide technical reading references.
 
 Photographs and screenshots document historical project activities. The repository's host checks do not establish new field-performance measurements. See the [validation record](validation.md) for the checks performed and their limits.

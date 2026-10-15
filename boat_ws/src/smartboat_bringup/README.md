@@ -1,7 +1,9 @@
-# Legacy bringup package
+# Bringup and PID reference source
 
-This package contains the legacy bringup implementation. The retired camera-only avoidance PID lives in `legacy/avoidance_pid/` with its original README, launch, YAML and node source. It is outside the maintained main control chain.
+**Project status from the poster:** navigation and control integration remain under development.
 
-Current whole-vessel composition is in `smartboat_mission`. Current local safety/execution logic is in `smartboat_navigation`, and vehicle output belongs to `smartboat_px4_bridge`. Do not treat the legacy PID's interfaces or the field-test document as the current default deployment.
+This package contains the camera-only PID reference under `legacy/avoidance_pid/`, including its README, launch, YAML and node. It is retained for inspection and is not a separately claimed completed project result.
 
-The ament copyright/style/docstring tests in `test/` are preserved. They require the ROS/ament environment and were not run here.
+The supplied whole-workspace launch is in `smartboat_mission`; additional navigation and bridge development files are in their respective packages. Read their guides before interpreting package names as completion claims.
+
+ROS/ament style and copyright tests were not run on the review host.

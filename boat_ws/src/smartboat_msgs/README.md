@@ -1,16 +1,9 @@
-# ROS interfaces
+# ROS message development source
 
-This `ament_cmake` package declares four maintained messages:
+**Project status from the poster:** custom ROS messages remain under development.
 
-| Definition | Use |
-|---|---|
-| `FusionDetection.msg` | Camera sensor readiness, obstacle/range/decision evidence and inference timing |
-| `RadarStatus.msg` | Radar status interface |
-| `RadarTarget.msg` | Individual radar target |
-| `RadarTargetArray.msg` | Radar target collection |
+This directory contains four definitions for inspection: `FusionDetection.msg`, `RadarStatus.msg`, `RadarTarget.msg` and `RadarTargetArray.msg`. `CMakeLists.txt` lists them in `rosidl_generate_interfaces` with a `std_msgs` dependency.
 
-`CMakeLists.txt` registers these definitions with `rosidl_generate_interfaces` and declares the `std_msgs` dependency. Empty `srv/` and `action/` scaffolds do not represent implemented services/actions.
+Definitions and build declarations are source contents, not evidence of completed system integration. Some diagnostic topics use JSON strings rather than these messages; inspect the publisher/subscriber code for actual types. Empty `srv/` and `action/` directories do not represent implemented interfaces.
 
-Not every diagnostic topic uses these messages: some radar status/target topics are still JSON strings. Inspect publishers/subscribers for actual wire types rather than assuming a message definition is used everywhere.
-
-The message text, manifest and CMake references were inspected; generated message bindings were not built on the host.
+Message generation and a ROS build were not run on the review host.

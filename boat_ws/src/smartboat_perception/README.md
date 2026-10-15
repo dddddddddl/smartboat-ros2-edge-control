@@ -1,19 +1,19 @@
-# Perception and dashboard streaming
+# Perception source and development modules
 
-This package contains the maintained camera/perception path and an independent visualization/streaming path.
+**Project status from the poster:** D435i smoke tests and EWaSR inference tools are implemented. The perception pipeline is presented as test/inference tooling, not a completed packaged ROS 2 navigation system.
 
-| Source | Responsibility |
+Manual tools are under `boat_ws/scripts/`, including `realsense_ewasr_fusion_avoidance_demo.py` and `realsense_ewasr_fusion_avoidance_viz_demo.py`.
+
+| Package source | Inspection guide |
 |---|---|
-| `ewasr_core.py` | Model path resolution and ONNX Runtime session creation |
-| `realsense_source.py` | RealSense acquisition and frame handling |
-| `fusion_model.py` | Pure segmentation/depth fusion calculations |
-| `ewasr_fusion_node.py` | ROS node publishing fusion results and synchronized visualization inputs |
-| `dashboard_pipeline.py` | Exact-timestamp synchronization and latest-only background work |
-| `dashboard_text.py` | Pre-rendered Chinese label sprites |
-| `dashboard_stream_node.py` | Dashboard composition and FFmpeg/SRT output |
+| `ewasr_core.py` | Model resolution and ONNX Runtime session creation |
+| `realsense_source.py` | Colour/depth acquisition and alignment |
+| `fusion_model.py` | Segmentation/depth calculations |
+| `ewasr_fusion_node.py` | ROS perception integration development source |
+| `dashboard_pipeline.py` | Timestamp synchronization and latest-only worker |
+| `dashboard_text.py` | Cached Chinese label rendering |
+| `dashboard_stream_node.py` | ROS dashboard/FFmpeg/SRT development source |
 
-Start with `fusion_model.py` and its tests, then inspect the ROS node. The node publishes `smartboat_msgs/FusionDetection` on `/smartboat/perception/fusion/detection`. `config/ewasr_fusion.yaml` records the supplied depth/pixel/decision thresholds.
+The package includes ROS message publication and dashboard code for inspection. Those files do not change the completion status reported in the poster. The development node uses `smartboat_msgs/FusionDetection`; configuration is in `config/`.
 
-The dashboard does not acquire the camera or publish safety decisions. It consumes complete matching color/depth/mask/detection inputs and streams frames independently. Display text, font expectations and the SRT station/boat identity format are preserved.
-
-The default model is `boat_ws/models/ewasr_resnet18.onnx`, resolved through configuration, `SMARTBOAT_EWASR_MODEL` or target workspace paths. The model and architecture-specific wheels are supplied separately as [runtime assets](../../../docs/runtime-assets.md). No model inference, camera capture or stream connection was run in this preparation. Offline fusion, synchronization and text-cache tests passed.
+The model and target wheels are available as [runtime assets](../../../docs/runtime-assets.md). Offline fusion, synchronization and text-cache checks passed. Model inference, camera acquisition and streaming were not executed during repository preparation.

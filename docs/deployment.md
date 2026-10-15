@@ -1,6 +1,8 @@
-# Jetson deployment guide
+# Jetson source build guide
 
-The runtime targets Jetson/aarch64 with Ubuntu 22.04, ROS 2 Humble and Python 3.10. The poster identifies a Jetson Orin NX and D435i. The Docker recipes use the L4T JetPack R36 family, while the host-specific version in the poster is historical platform information. This edition does not change that software stack.
+Project completion status follows the [SURF poster](presentation/smartboat_surf_project_poster.pptx). This guide covers the supplied source tree, including development modules; it does not reconstruct the exact trial configuration or establish completion of the poster's pending milestones.
+
+The build targets Jetson/aarch64 with Ubuntu 22.04, ROS 2 Humble and Python 3.10. The poster identifies a Jetson Orin NX and D435i. The Docker recipes use the L4T JetPack R36 family, while the host-specific version in the poster is historical platform information. This edition does not change that software stack.
 
 ## Before a target build
 
@@ -44,7 +46,7 @@ On the prepared target, the main entry is:
 ros2 launch smartboat_mission edge_nodes.launch.py
 ```
 
-`debug:=true` changes maintained node logging. The launch includes perception, streaming, EXO upload, radar, yaw, supervision, execution, the PX4 bridge and the MAVLink helper. Defaults enable control-related nodes and the bridge configuration enables hardware output subject to additional gates. Review [PX4 command ownership](../boat_ws/src/smartboat_px4_bridge/README.md) before a live launch.
+`debug:=true` changes maintained node logging. The launch includes perception, streaming, EXO upload, radar, yaw, supervision, execution, the PX4 bridge and the MAVLink helper. The supplied source defaults enable control-related development nodes and a bridge configured for hardware output, subject to additional gates. This is not a claim that the poster reports a completed ROS-native bridge. Review [PX4 command ownership](../boat_ws/src/smartboat_px4_bridge/README.md) before a live launch.
 
 For inspecting individual components after a successful target build, the registered entry points include:
 
@@ -57,10 +59,10 @@ smartboat_navigation: avoidance_supervisor_node, avoidance_executor_node
 smartboat_px4_bridge: cmd_vel_to_mavlink_node
 ```
 
-Use `ros2 pkg executables <package>` in the built environment to inspect the installed entries. `mavlink_autoconnect` is installed as a console executable but runs as a non-ROS helper process in the main launch. The maintenance guide's statement that it has no console entry conflicts with the current `setup.py` registration.
+Use `ros2 pkg executables <package>` in the built environment to inspect the installed entries. `mavlink_autoconnect` is installed as a console executable but runs as a non-ROS helper process in the main launch. This is a source-entry detail; the poster describes the helper as an external process.
 
 ## Original operator material
 
-The [Chinese maintenance guide](reference/maintenance_guide.zh-CN.md) retains detailed target commands, NoMachine/display setup, sensor notes and troubleshooting. The [field-test procedure](reference/field_test_procedure.zh-CN.md) contains PID and mode assumptions that differ from the current source. They remain useful project references, but their default-output and mode statements should not be copied into a current live test without reconciling the code/configuration.
+For source inspection, the [Chinese maintenance guide](reference/maintenance_guide.zh-CN.md) retains detailed target commands, NoMachine/display setup, sensor notes and troubleshooting. The [field-test procedure](reference/field_test_procedure.zh-CN.md) contains PID and mode assumptions that differ from the current source. They remain useful project references, but their default-output and mode statements should not be copied into a current live test without reconciling the code/configuration.
 
 No Docker image build, ROS build, cloud/shore connection or hardware startup was performed on this macOS host. See [validation.md](validation.md) for what was checked instead.

@@ -1,3 +1,3 @@
-# Reserved tools directory
+# Tools scaffold
 
-This directory contains scaffolding and has no `package.xml` or implemented packaged tools. Manual diagnostics are currently under `boat_ws/scripts/`; they remain distinct from maintained production dependencies.
+This directory contains scaffolding and no `package.xml` or packaged tools implementation. Available manual diagnostics and D435i test/inference tools are under `boat_ws/scripts/`. Their [guide](../../scripts/README.md) identifies the source files.

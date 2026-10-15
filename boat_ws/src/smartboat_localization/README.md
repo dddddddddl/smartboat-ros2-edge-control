@@ -1,5 +1,5 @@
-# Reserved localization directory
+# Localization scaffold
 
-This directory contains scaffolding, not an installed ROS package or a completed localization algorithm. The repository has no `package.xml` here.
+**Project status from the poster:** localization remains under development.
 
-Yaw/ground-speed inputs currently come from `smartboat_control`. A complete dedicated GPS/RTK/IMU fusion and transform stack is not supplied by this directory.
+This directory is a scaffold without a `package.xml` or a completed localization algorithm. Input-reader development modules are located in `smartboat_control`; this folder does not provide a fused GPS/RTK/IMU or transform stack.
