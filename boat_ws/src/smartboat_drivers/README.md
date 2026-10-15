@@ -1,15 +1,15 @@
 # Sensor and telemetry source
 
-**Project status from the poster:** WebSocket upload with mock data is implemented; real water-quality sensor integration remains under development.
+**Current project status:** real YSI EXO sensor acquisition and WebSocket upload are completed.
 
 | Source | Inspection guide |
 |---|---|
 | `water_quality_node.py` | Sensor-provider interface, identity loading and WebSocket payload/client |
-| `exo_serial.py` | EXO serial protocol, field mapping and provider development source |
+| `exo_serial.py` | EXO serial protocol, field mapping and real sensor provider |
 | `sr73f_protocol.py` | Radar CAN decoding and target-window helpers |
 | `sr73f_radar_node.py` | SocketCAN and ROS radar development source |
 
-The supplied node references `ExoSensorProvider`. Its presence is retained for code review and is not presented as completion of the poster's pending real-sensor milestone. The poster does not establish completed SR73F integration, so the radar files are not claimed as a demonstrated project outcome.
+The water-quality node starts `ExoSensorProvider`, which reads the EXO probe through the configured RS-232 adapter and supplies measurements to the telemetry client. SR73F source remains available for inspection; this status update does not add a separate radar hardware-validation claim.
 
 `smartboat_mission/config/edge_nodes.yaml` contains sensor/upload settings, and `config/sr73f_radar.yaml` contains radar settings. The JSON upload structure uses `timestamp`, `station`, `boat` and `data`; Chinese measurement labels follow `exo_serial.py`.
 

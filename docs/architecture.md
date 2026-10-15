@@ -1,56 +1,56 @@
 # Architecture and project status
 
-Project methods and completion status follow the [English SURF poster](presentation/smartboat_surf_project_poster.pptx). The source directory also contains development modules; it is a file inventory, not evidence that every module was deployed during the reported trials.
+The project owner has confirmed real YSI EXO acquisition/upload and ROS-native PX4 bridge, local navigation and control integration as completed. The original [SURF poster](presentation/smartboat_surf_project_poster.pptx) remains unchanged for project context, team credit and reported field activities. Its pending-status text for those areas is superseded by this completion update.
 
-## Poster-described workflow
+## System workflow
 
 ```mermaid
 flowchart LR
     H[Hikvision RTSP camera] --> F[FFmpeg forwarding]
     F --> S[External SRT service]
-    D[RealSense D435i] --> P[EWaSR and depth test tools]
-    Q[Mock water-quality provider] --> W[WebSocket telemetry]
+    Q[YSI EXO serial probe] --> W[Real sensor provider and WebSocket telemetry]
     W --> U[Shore monitoring interface]
+    D[RealSense D435i] --> P[EWaSR and depth perception]
+    P --> N[ROS local navigation and control]
+    N --> B[ROS-native PX4 bridge]
+    B --> X[PX4 controller]
     I[Vessel identity] --> A[Dynamic-port helper]
     A --> R[mavlink-routerd]
-    X[PX4 controller] <--> R
+    X <--> R
     R <--> G[Shore mission interface / QGroundControl]
 ```
 
-The perception tools acquire D435i colour, depth and IMU data. EWaSR ResNet-18 ONNX inference segments navigable water and candidate obstacles. The poster identifies these as test/inference tools, not a completed packaged ROS 2 navigation node.
+The perception source combines D435i colour/depth information with EWaSR segmentation. The manual smoke and inference tools remain available alongside ROS perception modules. The local navigation package separates safety assessment from mode-aware avoidance execution; vehicle output is handled by the PX4 bridge.
 
-Water-quality records contain time, station, vessel identity and multiple name/value observations. The poster records upload with mock data and lists the real sensor provider as pending. The shore interface is shown monitoring time-series and historical records; its complete source is not included here.
+The YSI EXO provider reads serial measurements and supplies timestamped name/value records to the WebSocket client. It validates configured parameter order and retains the Chinese measurement labels and units in `exo_serial.py`. The complete shore application is not included here.
 
-For the mission link, the helper reads vessel identity and requests a dedicated server port. `mavlink-routerd` forwards PX4/MAVLink communication to the shore side, where operators can define waypoints. The poster treats the helper as an external process and the ROS-native bridge as under development.
+The mission helper reads vessel identity, requests a dedicated server port and starts `mavlink-routerd`. The ROS-native bridge accepts command/activation inputs, applies output gates and sends Offboard body-frame velocity setpoints. Physical RC/manual takeover behavior and event-recording code are included. The retained manual-control PI helper is not called by the active Offboard output path.
 
-## Completion status from the poster
+## Current status
 
-| Area | Reported status |
+| Area | Status |
 |---|---|
 | Jetson/Docker edge platform | Established project environment |
-| SRT video forwarding | Implemented / runnable |
-| WebSocket water-quality upload | Implemented with mock data |
-| MAVLink dynamic-port routing | Implemented / runnable |
+| SRT video forwarding | Completed |
+| Real YSI EXO acquisition and WebSocket upload | Completed |
+| MAVLink dynamic-port routing | Completed |
 | D435i smoke tests and inference tools | Implemented / runnable |
-| Real water-quality provider | Under development |
-| ROS-native PX4 bridge and custom messages | Under development |
-| Navigation, localization and control integration | Under development |
+| ROS-native PX4 bridge | Completed |
+| Local navigation and control integration | Completed |
+| Custom ROS message definitions | Four definitions included; further interface integration/validation remains |
+| Dedicated localization package | Scaffold; under development |
 | Measured accuracy, endurance and avoidance success | Further evaluation required |
 
-The poster reports trials at Dushu Lake and the campus pond. It provides no quantified accuracy, endurance or avoidance-success result.
+Completion status is distinct from independent verification. Repository preparation did not include a ROS build, connected-sensor test, live PX4 session or on-water test. The poster reports trials at Dushu Lake and the campus pond, but provides no quantified accuracy, endurance or avoidance-success result.
 
-## Reading the supplied development source
+## Source reading map
 
-The [workspace guide](../boat_ws/README.md) maps the available files to their responsibilities. It includes EXO/radar drivers, ROS perception and streaming modules, safety/execution models, message definitions and a PX4 command bridge. These are development-source contents, not additional completed milestones in this presentation.
-
-Package guides describe file interfaces and configuration so readers can inspect the code. They do not replace the poster's project-status table.
+The [workspace guide](../boat_ws/README.md) maps EXO/radar drivers, ROS perception/streaming, safety/execution models, message definitions and the PX4 bridge to their source files. SR73F code is included, but this update does not add a separate claim that radar hardware was validated. The local avoidance stack does not include a complete global mission planner or fused GPS/RTK/IMU localization system.
 
 ## Build and control boundary
 
-The supplied `edge_nodes.launch.py` references more components than the poster's three-link summary. In particular, it enables control-related development nodes and loads a bridge configuration with `output_enabled: true`. File presence and enabled defaults do not establish completed or validated project integration. See [deployment.md](deployment.md) before using that launch on hardware.
-
-No source algorithms, configurations or launch defaults were changed to align these documents with the poster.
+`edge_nodes.launch.py` enables navigation/control nodes and loads a bridge configuration with `output_enabled: true`, subject to additional gates. Review [deployment.md](deployment.md) before using the launch on hardware. No source algorithms, configuration or launch defaults were changed for this documentation update.
 
 ## External systems and missing materials
 
-The edge source expects shore services, an SRT receiver, MAVLink routing configuration and deployment identities. The complete shore application, PX4 firmware, vessel fabrication CAD, model training data and raw quantitative field-test records are not included. Configuration values and source comments are not presented as independently reproduced performance measurements.
+The edge source expects shore services, an SRT receiver, MAVLink routing configuration and deployment identities. The complete shore application, PX4 firmware, vessel fabrication CAD, model training data and raw quantitative field-test records are not included. Existing configuration values and source comments are not presented as independently reproduced performance measurements.

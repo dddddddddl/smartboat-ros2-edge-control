@@ -1,6 +1,6 @@
 # Jetson source build guide
 
-Project completion status follows the [SURF poster](presentation/smartboat_surf_project_poster.pptx). This guide covers the supplied source tree, including development modules; it does not reconstruct the exact trial configuration or establish completion of the poster's pending milestones.
+This guide covers the supplied source, including the completed real EXO path, ROS-native PX4 bridge and local navigation/control integration. It is a target build guide, not a record of independent hardware verification or a reconstruction of the poster's exact trial configuration.
 
 The build targets Jetson/aarch64 with Ubuntu 22.04, ROS 2 Humble and Python 3.10. The poster identifies a Jetson Orin NX and D435i. The Docker recipes use the L4T JetPack R36 family, while the host-specific version in the poster is historical platform information. This edition does not change that software stack.
 
@@ -46,7 +46,7 @@ On the prepared target, the main entry is:
 ros2 launch smartboat_mission edge_nodes.launch.py
 ```
 
-`debug:=true` changes maintained node logging. The launch includes perception, streaming, EXO upload, radar, yaw, supervision, execution, the PX4 bridge and the MAVLink helper. The supplied source defaults enable control-related development nodes and a bridge configured for hardware output, subject to additional gates. This is not a claim that the poster reports a completed ROS-native bridge. Review [PX4 command ownership](../boat_ws/src/smartboat_px4_bridge/README.md) before a live launch.
+`debug:=true` changes maintained node logging. The launch includes perception, streaming, EXO upload, radar, yaw, supervision, execution, the PX4 bridge and the MAVLink helper. The supplied source defaults enable navigation/control nodes and a bridge configured for hardware output, subject to additional gates. Target build and hardware validation were not repeated during repository preparation. Review [PX4 command ownership](../boat_ws/src/smartboat_px4_bridge/README.md) before a live launch.
 
 For inspecting individual components after a successful target build, the registered entry points include:
 

@@ -1,6 +1,6 @@
 # ROS message development source
 
-**Project status from the poster:** custom ROS messages remain under development.
+**Source scope:** four custom ROS message definitions are included. Further interface integration and target validation remain separate work.
 
 This directory contains four definitions for inspection: `FusionDetection.msg`, `RadarStatus.msg`, `RadarTarget.msg` and `RadarTargetArray.msg`. `CMakeLists.txt` lists them in `rosidl_generate_interfaces` with a `std_msgs` dependency.
 

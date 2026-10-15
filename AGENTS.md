@@ -4,7 +4,7 @@ This file is the short, high-priority guide for Codex or other coding agents wor
 
 ## Project presentation
 
-Use the supplied SURF poster as the authority for reported project completion status. Runtime inventories below describe available code, including development modules; do not present source presence or offline test passes as completion of the poster's pending real-sensor, ROS bridge, message, navigation, localization or control milestones. Preserve actual runtime settings when documenting build and hardware behavior.
+The project owner has explicitly updated the status: real YSI EXO acquisition/upload, ROS-native PX4 bridging and local navigation/control integration are completed. This update supersedes the corresponding pending-status text in the supplied poster. Do not infer completed dedicated localization, further custom-message integration, new hardware tests or quantitative performance results. Preserve actual runtime settings and existing verification limits.
 
 ## Repository Root
 

@@ -1,6 +1,6 @@
 # Offline host checks
 
-`run_host_checks.sh` selects eight existing test files that can run without ROS, hardware, a model or shore services. No test assertions or runtime algorithms were changed for this portfolio edition. The checks include development modules; passing them does not change the completion status reported in the [SURF poster](../docs/presentation/smartboat_surf_project_poster.pptx).
+`run_host_checks.sh` selects eight existing test files that can run without ROS, hardware, a model or shore services. No test assertions or runtime algorithms were changed for this portfolio edition. These checks assess software behavior separately from the [current project status](../docs/architecture.md). Passing them does not establish hardware integration or field performance.
 
 From the repository root in an isolated virtual environment:
 
